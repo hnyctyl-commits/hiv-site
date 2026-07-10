@@ -94,15 +94,6 @@
         .nav-links a:hover { color: var(--green-700); background: var(--green-50); }
         .nav-links a.active { color: var(--white); background: var(--green-700); }
 
-        @media (max-width: 768px) {
-            .nav-links { gap: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-            .nav-links a { font-size: 13px; padding: 6px 12px; white-space: nowrap; }
-            .nav-inner { padding: 0 16px; }
-        }
-
-        /* ===== Container ===== */
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        @media (max-width: 768px) { .container { padding: 0 16px; } }
 
         /* ===== Hero Section ===== */
         .hero {
@@ -596,6 +587,100 @@
         }
         .section-hero h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
         .section-hero p { opacity: 0.85; font-size: 15px; }
+
+        /* ====================================
+               MOBILE RESPONSIVE
+            ==================================== */
+        @media (max-width: 768px) {
+            /* Nav */
+            .nav-links { gap: 2px; }
+            .nav-links a { font-size: 12px; padding: 6px 10px; }
+            .logo { font-size: 17px; }
+            .logo-icon { width: 28px; height: 28px; font-size: 14px; }
+
+            /* Hero */
+            .hero { padding: 60px 0 40px; }
+            .hero-inner { padding: 0 16px; }
+            .hero-stats { gap: 16px; }
+            .hero-stat-num { font-size: 20px; }
+            .hero-stat-label { font-size: 12px; }
+
+            /* Brand tagline pill */
+            .hero-inner > div:last-child { flex-wrap: wrap; padding: 8px 16px; gap: 6px; }
+            .hero-inner > div:last-child span:first-child { font-size: 16px; }
+            .hero-inner > div:last-child span:nth-child(2) { font-size: 13px; }
+
+            /* Section padding */
+            .section { padding: 32px 0; }
+            .section-header h2 { font-size: 22px; }
+
+            /* Chat */
+            .chat-card { height: 520px; border-radius: var(--radius-lg); }
+            .chat-header { padding: 14px 16px; }
+            .chat-messages { padding: 16px; }
+            .msg { max-width: 92%; padding: 12px 14px; font-size: 13px; }
+            .chat-input-area { padding: 12px 16px 16px; }
+            .chat-input-area textarea { font-size: 13px; }
+
+            /* Stats in hero */
+            .hero-stats { gap: 12px; }
+        }
+
+        /* Small phones */
+        @media (max-width: 480px) {
+            .hero { padding: 50px 0 32px; }
+            .hero h1 { font-size: 26px; }
+            .hero p { font-size: 15px; }
+            .chat-card { height: 460px; }
+            .chat-messages { min-height: 280px; max-height: 380px; }
+
+            /* Section heros */
+            .section-hero { padding: 28px 20px; border-radius: var(--radius-lg); }
+            .section-hero h1 { font-size: 22px; }
+            .section-hero p { font-size: 14px; }
+
+            /* Knowledge cards */
+            .kb-card { padding: 18px; }
+
+            /* Shop cards */
+            .shop-card { padding: 24px 16px; }
+            .shop-card .price { font-size: 24px; }
+
+            /* Expert page */
+            .expert-card { padding: 24px; }
+            .expert-avatar { width: 72px; height: 72px; font-size: 30px; }
+            .expert-info h3 { font-size: 18px; }
+
+            /* Payment layout */
+            #page-expert > div > div:last-child { grid-template-columns: 1fr !important; }
+
+            /* Pricing cards layout */
+            #page-expert .shop-card { padding: 20px 16px; }
+
+            /* Footer */
+            footer { padding: 28px 16px; font-size: 12px; }
+
+            /* Brand tagline on mobile */
+            .hero-inner > div:last-child span:nth-child(4) { display: none; } /* hide separator */
+            .hero-inner > div:last-child span:last-child { width: 100%; text-align: center; font-size: 11px; } /* diseases on new line */
+        }
+
+        /* Tablet */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .chat-layout { gap: 20px; }
+            .sidebar { gap: 16px; }
+            .kb-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* Touch-friendly */
+        @media (hover: none) and (pointer: coarse) {
+            .quick-btn:hover { transform: none; }
+            .product-item:hover { transform: none; }
+            .kb-card:hover { transform: none; box-shadow: var(--shadow-sm); }
+            .shop-card:hover { transform: none; box-shadow: var(--shadow-md); }
+            .send-btn:hover { transform: none; box-shadow: none; }
+            .nav-links a:hover { background: transparent; color: var(--gray-600); }
+        }
     </style>
 </head>
 <body>
