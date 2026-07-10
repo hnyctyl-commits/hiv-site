@@ -3,301 +3,667 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>艾检卫士 · AI恐艾风险评估 | HIV预防与心理疏导</title>
+    <title>艾检卫士 · AI恐艾风险评估 | 多病联防公益指导</title>
     <meta name="description" content="完全匿名的AI恐艾风险评估工具。专业HIV暴露后预防(PEP)指南、窗口期解读、心理疏导。多病联防公益指导，守护你的健康。">
     <meta name="keywords" content="恐艾, HIV风险评估, 艾滋病试纸, 暴露后预防, PEP, 艾滋心理咨询, 艾滋病自检">
-
-    <!-- Google AdSense -->
     <meta name="google-adsense-account" content="ca-pub-9946249937416673">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9946249937416673" crossorigin="anonymous"></script>
 
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* ===== Reset & Variables ===== */
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        :root {
+            --green-900: #0D3B3B;
+            --green-800: #145252;
+            --green-700: #1B6B5E;
+            --green-600: #2D8F6F;
+            --green-500: #52B788;
+            --green-400: #74C69D;
+            --green-200: #D8F3DC;
+            --green-50: #F0FAF4;
+            --red: #CC1838;
+            --red-light: #FDE8EC;
+            --gray-900: #1A1A2E;
+            --gray-600: #6B7280;
+            --gray-400: #9CA3AF;
+            --gray-200: #E5E7EB;
+            --gray-100: #F3F4F6;
+            --gray-50: #FAFBFC;
+            --white: #FFFFFF;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+            --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --font: -apple-system, 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html { scroll-behavior: smooth; }
         body {
-            font-family: -apple-system, 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
-            background: #f0f4f8;
-            color: #1a1a2e;
+            font-family: var(--font);
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
             min-height: 100vh;
         }
+
+        /* ===== Navigation ===== */
         .nav {
-            background: white;
-            border-bottom: 1px solid #e8edf2;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            position: fixed; top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+            transition: var(--transition);
         }
         .nav-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
+            max-width: 1200px; margin: 0 auto;
+            padding: 0 24px;
+            display: flex; align-items: center;
             justify-content: space-between;
-            height: 60px;
+            height: 64px;
         }
-        .logo { font-size: 20px; font-weight: 800; color: #1a3c2a; display: flex; align-items: center; gap: 8px; }
-        .logo span { color: #cc1838; }
-        .nav-links { display: flex; gap: 24px; }
+        .logo {
+            font-size: 20px; font-weight: 800;
+            color: var(--green-900);
+            text-decoration: none;
+            display: flex; align-items: center; gap: 8px;
+            letter-spacing: -0.5px;
+        }
+        .logo-icon {
+            width: 32px; height: 32px;
+            background: linear-gradient(135deg, var(--green-700), var(--green-500));
+            border-radius: var(--radius-sm);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px;
+        }
+        .logo span { color: var(--red); }
+        .nav-links { display: flex; gap: 4px; }
         .nav-links a {
-            text-decoration: none; color: #555; font-size: 14px; font-weight: 500;
-            transition: color 0.2s; cursor: pointer;
+            text-decoration: none; color: var(--gray-600);
+            font-size: 14px; font-weight: 500;
+            padding: 8px 16px; border-radius: var(--radius-sm);
+            transition: var(--transition);
+            cursor: pointer;
         }
-        .nav-links a:hover, .nav-links a.active { color: #cc1838; }
+        .nav-links a:hover { color: var(--green-700); background: var(--green-50); }
+        .nav-links a.active { color: var(--white); background: var(--green-700); }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        @media (max-width: 768px) {
+            .nav-links { gap: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            .nav-links a { font-size: 13px; padding: 6px 12px; white-space: nowrap; }
+            .nav-inner { padding: 0 16px; }
+        }
 
+        /* ===== Container ===== */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        @media (max-width: 768px) { .container { padding: 0 16px; } }
+
+        /* ===== Hero Section ===== */
         .hero {
-            background: linear-gradient(135deg, #1b3d3d 0%, #2d6a4f 50%, #1a3c2a 100%);
-            color: white;
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 30px;
+            margin-top: 64px;
+            padding: 80px 0 60px;
+            background: linear-gradient(165deg, #0D3B3B 0%, #145252 35%, #1B6B5E 65%, #2D8F6F 100%);
             position: relative;
             overflow: hidden;
         }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%; right: -20%;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(82,183,136,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
         .hero::after {
             content: '❤️';
-            position: absolute; right: 30px; bottom: -10px;
-            font-size: 120px; opacity: 0.08;
+            position: absolute; right: 60px; bottom: -20px;
+            font-size: 160px; opacity: 0.04;
+            pointer-events: none;
         }
-        .hero h1 { font-size: 32px; margin-bottom: 12px; }
-        .hero p { font-size: 16px; opacity: 0.9; line-height: 1.6; max-width: 600px; }
-        .hero .stats {
-            display: flex; gap: 32px; margin-top: 20px;
+        .hero-inner {
+            max-width: 1200px; margin: 0 auto;
+            padding: 0 24px;
+            position: relative; z-index: 1;
         }
-        .hero .stat { text-align: center; }
-        .hero .stat-num { font-size: 28px; font-weight: 800; }
-        .hero .stat-label { font-size: 12px; opacity: 0.7; }
-        .hero .ribbon {
-            display: inline-block;
-            background: #cc1838; padding: 4px 14px; border-radius: 4px;
-            font-size: 12px; font-weight: 700; margin-left: 8px;
+        .hero-content { max-width: 700px; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(10px);
+            padding: 6px 16px; border-radius: 20px;
+            font-size: 13px; color: rgba(255,255,255,0.9);
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1.2;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+        .hero h1 em {
+            font-style: normal;
+            background: linear-gradient(135deg, #74C69D, #52B788);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 17px;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.7;
+            margin-bottom: 28px;
+            max-width: 560px;
+        }
+        .hero-stats {
+            display: flex; gap: 32px; flex-wrap: wrap;
+        }
+        .hero-stat { text-align: center; }
+        .hero-stat-num {
+            font-size: 24px; font-weight: 800;
+            color: var(--white);
+        }
+        .hero-stat-label {
+            font-size: 13px;
+            color: rgba(255,255,255,0.6);
+            margin-top: 2px;
         }
 
-        .main-grid { display: grid; grid-template-columns: 1fr 380px; gap: 24px; }
-        @media (max-width: 800px) { .main-grid { grid-template-columns: 1fr; } }
+        /* ===== Section Styles ===== */
+        .section {
+            padding: 60px 0;
+            animation: fadeUp 0.6s ease;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        /* Chat */
+        .section-header {
+            margin-bottom: 32px;
+        }
+        .section-header h2 {
+            font-size: 26px; font-weight: 700;
+            color: var(--green-900);
+            letter-spacing: -0.5px;
+        }
+        .section-header p {
+            color: var(--gray-600);
+            font-size: 15px;
+            margin-top: 8px;
+        }
+
+        /* ===== Chat Layout ===== */
+        .chat-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 28px;
+            align-items: start;
+        }
+        @media (max-width: 900px) {
+            .chat-layout { grid-template-columns: 1fr; }
+        }
+
+        /* ===== Chat Card ===== */
         .chat-card {
-            background: white; border-radius: 16px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-            overflow: hidden; display: flex; flex-direction: column;
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            display: flex; flex-direction: column;
+            height: 620px;
+            border: 1px solid rgba(0,0,0,0.04);
         }
         .chat-header {
-            background: #1b3d3d; color: white;
-            padding: 16px 20px; display: flex; align-items: center; gap: 12px;
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 18px 24px;
+            display: flex; align-items: center; gap: 14px;
         }
-        .chat-header .avatar {
-            width: 36px; height: 36px; background: #40916c;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px;
+        .chat-avatar {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, var(--green-600), var(--green-400));
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; flex-shrink: 0;
         }
-        .chat-header .title { font-weight: 600; font-size: 15px; }
-        .chat-header .subtitle { font-size: 12px; opacity: 0.7; }
+        .chat-header-info { flex: 1; min-width: 0; }
+        .chat-header-title { font-size: 15px; font-weight: 600; color: var(--gray-900); }
+        .chat-header-sub { font-size: 12px; color: var(--gray-400); }
+        .chat-status {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 12px; color: var(--green-600); font-weight: 500;
+        }
+        .chat-status-dot {
+            width: 8px; height: 8px;
+            background: var(--green-500);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
 
         .chat-messages {
-            flex: 1; overflow-y: auto; padding: 20px;
-            display: flex; flex-direction: column; gap: 12px;
-            min-height: 350px; max-height: 500px;
+            flex: 1; overflow-y: auto;
+            padding: 24px;
+            display: flex; flex-direction: column; gap: 16px;
+            background: linear-gradient(180deg, #FAFBFC 0%, #F0FAF4 100%);
         }
-        .msg {
-            max-width: 85%; padding: 12px 16px; border-radius: 16px;
-            font-size: 14px; line-height: 1.7;
-            animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-        .msg.bot { background: #f0f4f8; align-self: flex-start; border-bottom-left-radius: 4px; }
-        .msg.user { background: #40916c; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
-        .msg .timestamp { font-size: 10px; opacity: 0.5; margin-top: 4px; text-align: right; }
+        .chat-messages::-webkit-scrollbar { width: 4px; }
+        .chat-messages::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 2px; }
 
-        .typing { display: none; align-self: flex-start; background: #f0f4f8; padding: 12px 18px; border-radius: 16px; border-bottom-left-radius: 4px; }
-        .typing.show { display: flex; gap: 4px; }
-        .typing span { width: 8px; height: 8px; background: #aaa; border-radius: 50%; animation: typing 1.4s infinite; }
+        .msg {
+            max-width: 88%;
+            padding: 14px 18px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.7;
+            animation: msgIn 0.35s ease;
+            position: relative;
+        }
+        @keyframes msgIn {
+            from { opacity: 0; transform: translateY(8px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .msg.bot {
+            background: var(--white);
+            align-self: flex-start;
+            border-bottom-left-radius: 6px;
+            box-shadow: var(--shadow-sm);
+            color: var(--gray-900);
+        }
+        .msg.bot::before {
+            content: '';
+            position: absolute; left: -6px; bottom: 8px;
+            width: 12px; height: 12px;
+            background: var(--white);
+            border-radius: 0 0 0 3px;
+            transform: rotate(45deg);
+            box-shadow: -2px 2px 2px rgba(0,0,0,0.02);
+        }
+        .msg.user {
+            background: linear-gradient(135deg, var(--green-700), var(--green-600));
+            color: var(--white);
+            align-self: flex-end;
+            border-bottom-right-radius: 6px;
+            box-shadow: 0 4px 12px rgba(45,143,111,0.25);
+        }
+        .msg .ts {
+            font-size: 10px;
+            opacity: 0.45;
+            margin-top: 6px;
+            text-align: right;
+        }
+        .msg.user .ts { color: rgba(255,255,255,0.6); }
+        .msg.bot .ts { color: var(--gray-400); }
+
+        .typing {
+            display: none;
+            align-self: flex-start;
+            background: var(--white);
+            padding: 14px 20px;
+            border-radius: 18px;
+            border-bottom-left-radius: 6px;
+            box-shadow: var(--shadow-sm);
+        }
+        .typing.show { display: flex; gap: 4px; align-items: center; }
+        .typing span {
+            width: 8px; height: 8px;
+            background: var(--gray-400);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
         .typing span:nth-child(2) { animation-delay: 0.2s; }
         .typing span:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typing { 0%,60%,100% { opacity: 0.3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-4px); } }
-
-        .chat-input { display: flex; padding: 12px 16px; border-top: 1px solid #e8edf2; gap: 8px; background: white; }
-        .chat-input textarea {
-            flex: 1; border: 2px solid #e8edf2; border-radius: 12px;
-            padding: 10px 14px; font-size: 14px; font-family: inherit;
-            resize: none; min-height: 44px; max-height: 100px; transition: border-color 0.2s;
+        @keyframes typing {
+            0%,60%,100% { opacity:0.3; transform:translateY(0); }
+            30% { opacity:1; transform:translateY(-4px); }
         }
-        .chat-input textarea:focus { outline: none; border-color: #40916c; }
-        .chat-input .send-btn {
-            width: 44px; height: 44px; background: #40916c; color: white;
-            border: none; border-radius: 12px; font-size: 18px; cursor: pointer;
-            transition: background 0.2s; flex-shrink: 0;
-        }
-        .chat-input .send-btn:hover { background: #2d6a4f; }
-        .chat-input .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-        .chat-footer { padding: 8px 16px; font-size: 11px; color: #aaa; text-align: center; border-top: 1px solid #f0f0f0; background: #fafafa; }
 
-        /* Sidebar */
+        .chat-input-area {
+            display: flex; gap: 10px;
+            padding: 16px 20px 20px;
+            background: var(--white);
+            border-top: 1px solid var(--gray-200);
+        }
+        .chat-input-area textarea {
+            flex: 1;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            padding: 10px 16px;
+            font-size: 14px; font-family: inherit;
+            resize: none; min-height: 44px; max-height: 100px;
+            transition: var(--transition);
+            line-height: 1.5;
+        }
+        .chat-input-area textarea:focus {
+            outline: none;
+            border-color: var(--green-500);
+            box-shadow: 0 0 0 3px rgba(82,183,136,0.12);
+        }
+        .chat-input-area textarea::placeholder { color: var(--gray-400); }
+        .send-btn {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, var(--green-600), var(--green-500));
+            color: var(--white);
+            border: none; border-radius: var(--radius-md);
+            font-size: 18px; cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .send-btn:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(45,143,111,0.3); }
+        .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+        .chat-footer {
+            padding: 10px 20px;
+            font-size: 11px; color: var(--gray-400);
+            text-align: center;
+            background: var(--gray-50);
+            border-top: 1px solid var(--gray-200);
+        }
+
+        /* ===== Sidebar Panels ===== */
         .sidebar { display: flex; flex-direction: column; gap: 20px; }
-        .panel { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
-        .panel h3 { font-size: 15px; color: #1b3d3d; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+
+        .panel {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .panel-title {
+            font-size: 15px; font-weight: 700;
+            color: var(--green-900);
+            margin-bottom: 16px;
+            display: flex; align-items: center; gap: 8px;
+        }
 
         .quick-btn {
-            display: block; width: 100%; padding: 10px 14px; margin-bottom: 8px;
-            background: #f5f9ff; border: 1px solid #e0e8f0; border-radius: 10px;
-            font-size: 13px; color: #333; cursor: pointer; transition: all 0.2s; text-align: left;
+            display: block; width: 100%;
+            padding: 11px 16px; margin-bottom: 8px;
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            font-size: 13px; color: var(--gray-600);
+            cursor: pointer; transition: var(--transition);
+            text-align: left; font-family: inherit;
+            line-height: 1.4;
         }
-        .quick-btn:hover { background: #e8f5e9; border-color: #40916c; transform: translateX(2px); }
+        .quick-btn:last-child { margin-bottom: 0; }
+        .quick-btn:hover {
+            background: var(--green-50);
+            border-color: var(--green-400);
+            color: var(--green-700);
+            transform: translateX(4px);
+        }
 
+        /* ===== Product Cards ===== */
         .product-list { display: flex; flex-direction: column; gap: 10px; }
         .product-item {
-            display: flex; align-items: center; gap: 12px; padding: 12px;
-            background: #f9fafb; border-radius: 12px; cursor: pointer;
-            transition: all 0.2s; text-decoration: none; color: inherit;
+            display: flex; align-items: center; gap: 14px;
+            padding: 14px; background: var(--gray-50);
+            border-radius: var(--radius-sm); cursor: pointer;
+            transition: var(--transition); text-decoration: none; color: inherit;
+            border: 1px solid transparent;
         }
-        .product-item:hover { background: #e8f5e9; transform: translateY(-1px); }
-        .product-item .icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-        .product-item .info { flex: 1; }
-        .product-item .name { font-size: 14px; font-weight: 600; }
-        .product-item .price { font-size: 13px; color: #cc1838; font-weight: 700; margin-top: 2px; }
-        .product-item .tag { font-size: 11px; background: #cc1838; color: white; padding: 2px 8px; border-radius: 4px; }
-        .btn-buy {
-            display: block; text-align: center; background: #cc1838; color: white;
-            padding: 8px; border-radius: 8px; font-size: 13px; font-weight: 600;
-            text-decoration: none; margin-top: 8px; transition: background 0.2s;
+        .product-item:hover {
+            background: var(--green-50);
+            border-color: var(--green-200);
+            transform: translateY(-2px);
         }
-        .btn-buy:hover { background: #a0122d; }
-
-        .disclaimer-box {
-            background: #fff8e1; border-left: 4px solid #f0ad4e;
-            padding: 12px 16px; border-radius: 8px; font-size: 12px;
-            color: #856404; line-height: 1.6;
+        .product-icon {
+            width: 44px; height: 44px;
+            border-radius: var(--radius-sm);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; flex-shrink: 0;
         }
-
-        /* Ad */
-        .ad-unit {
-            text-align: center; padding: 8px 0;
+        .product-info { flex: 1; min-width: 0; }
+        .product-name { font-size: 14px; font-weight: 600; }
+        .product-price { font-size: 13px; color: var(--red); font-weight: 700; margin-top: 2px; }
+        .product-tag {
+            font-size: 10px; background: var(--red);
+            color: var(--white); padding: 2px 8px; border-radius: 4px;
+            margin-left: 6px;
         }
 
-        /* Page sections (hidden by default) */
+        .buy-all-btn {
+            display: block; text-align: center;
+            background: linear-gradient(135deg, var(--red), #E03A5A);
+            color: var(--white); padding: 10px;
+            border-radius: var(--radius-sm); font-size: 13px;
+            font-weight: 600; text-decoration: none;
+            margin-top: 12px; transition: var(--transition);
+        }
+        .buy-all-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(204,24,56,0.3); }
+
+        /* ===== Ad ===== */
+        .ad-unit { text-align: center; margin: 0; }
+
+        /* ===== Disclaimer ===== */
+        .disclaimer {
+            background: #FFF8E1;
+            border-left: 4px solid #F0AD4E;
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            font-size: 12px; color: #856404;
+            line-height: 1.6;
+        }
+
+        /* ===== Page Sections (tabs) ===== */
         .page-section { display: none; }
-        .page-section.active { display: block; }
+        .page-section.active { display: block; animation: fadeUp 0.4s ease; }
 
-        /* Knowledge base */
-        .kb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        /* ===== Knowledge Base ===== */
+        .kb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        @media (max-width: 900px) { .kb-grid { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 600px) { .kb-grid { grid-template-columns: 1fr; } }
         .kb-card {
-            background: white; border-radius: 12px; padding: 20px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-            border-left: 4px solid #40916c;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(0,0,0,0.04);
+            transition: var(--transition);
         }
-        .kb-card h4 { color: #1b3d3d; margin-bottom: 8px; font-size: 15px; }
-        .kb-card p { color: #555; font-size: 13px; line-height: 1.6; }
+        .kb-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        .kb-card h4 {
+            color: var(--green-900);
+            font-size: 15px;
+            margin-bottom: 10px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .kb-card p { color: var(--gray-600); font-size: 13px; line-height: 1.7; }
+        .kb-card strong { color: var(--green-700); }
 
-        /* Shop */
-        .shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        /* ===== Shop Grid ===== */
+        .shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         @media (max-width: 600px) { .shop-grid { grid-template-columns: 1fr; } }
         .shop-card {
-            background: white; border-radius: 16px; padding: 24px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06); text-align: center;
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 32px 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(0,0,0,0.04);
+            text-align: center;
+            transition: var(--transition);
         }
-        .shop-card .emoji { font-size: 48px; margin-bottom: 12px; }
-        .shop-card h4 { font-size: 16px; color: #1b3d3d; }
-        .shop-card .desc { font-size: 13px; color: #666; margin: 8px 0; line-height: 1.5; }
-        .shop-card .price-tag { font-size: 24px; font-weight: 800; color: #cc1838; margin: 12px 0; }
-        .shop-card .shop-btn {
-            display: inline-block; background: #40916c; color: white;
-            padding: 10px 28px; border-radius: 10px; text-decoration: none;
-            font-size: 14px; font-weight: 600; transition: background 0.2s;
+        .shop-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+        .shop-card .emoji { font-size: 48px; margin-bottom: 12px; display: block; }
+        .shop-card h4 { font-size: 17px; color: var(--green-900); }
+        .shop-card .desc { font-size: 13px; color: var(--gray-600); margin: 8px 0; line-height: 1.6; }
+        .shop-card .price { font-size: 28px; font-weight: 800; color: var(--red); margin: 12px 0; }
+        .shop-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--green-600), var(--green-500));
+            color: var(--white); padding: 10px 28px;
+            border-radius: var(--radius-sm); text-decoration: none;
+            font-size: 14px; font-weight: 600; transition: var(--transition);
         }
-        .shop-card .shop-btn:hover { background: #2d6a4f; }
-        .shop-card .shop-note { font-size: 11px; color: #aaa; margin-top: 8px; }
+        .shop-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(45,143,111,0.3); }
 
-        footer { text-align: center; padding: 30px; color: #aaa; font-size: 13px; }
-
-        /* Expert section */
+        /* ===== Expert Card ===== */
         .expert-card {
-            background: white; border-radius: 16px; padding: 30px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            display: flex; gap: 24px; align-items: center;
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 36px;
+            box-shadow: var(--shadow-md);
+            display: flex; gap: 28px; align-items: center;
+            border: 1px solid rgba(0,0,0,0.04);
         }
         @media (max-width: 600px) { .expert-card { flex-direction: column; text-align: center; } }
         .expert-avatar {
             width: 100px; height: 100px; border-radius: 50%;
-            background: linear-gradient(135deg, #1b3d3d, #40916c);
+            background: linear-gradient(135deg, var(--green-700), var(--green-500));
             display: flex; align-items: center; justify-content: center;
             font-size: 40px; flex-shrink: 0;
+            box-shadow: 0 8px 24px rgba(45,143,111,0.2);
         }
-        .expert-info h3 { font-size: 20px; color: #1b3d3d; }
-        .expert-info .title { color: #666; font-size: 14px; margin: 4px 0 12px; }
-        .expert-info .desc { font-size: 14px; line-height: 1.7; color: #444; }
+        .expert-info h3 { font-size: 20px; color: var(--green-900); }
+        .expert-info .title { color: var(--gray-600); font-size: 14px; margin: 4px 0 12px; }
+        .expert-info .desc { font-size: 14px; line-height: 1.8; color: var(--gray-600); }
         .expert-btn {
-            display: inline-block; background: #cc1838; color: white;
-            padding: 10px 24px; border-radius: 10px; text-decoration: none;
+            display: inline-block;
+            background: linear-gradient(135deg, var(--red), #E03A5A);
+            color: var(--white); padding: 10px 24px;
+            border-radius: var(--radius-sm); text-decoration: none;
             font-size: 14px; font-weight: 600; margin-top: 12px;
+            transition: var(--transition); border: none; cursor: pointer;
         }
-        .expert-btn:hover { background: #a0122d; }
+        .expert-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(204,24,56,0.3); }
+
+        /* ===== Footer ===== */
+        footer {
+            text-align: center;
+            padding: 40px 24px;
+            background: var(--green-900);
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+            margin-top: 20px;
+        }
+        footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+        footer a:hover { color: var(--green-400); }
+
+        /* ===== Scrollbar ===== */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 3px; }
+
+        /* ===== Section hero (for inner pages) ===== */
+        .section-hero {
+            background: linear-gradient(135deg, var(--green-800), var(--green-600));
+            border-radius: var(--radius-xl);
+            padding: 48px;
+            color: var(--white);
+            margin-bottom: 32px;
+        }
+        .section-hero h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+        .section-hero p { opacity: 0.85; font-size: 15px; }
     </style>
 </head>
 <body>
 
-    <!-- Nav -->
+    <!-- ===== Navigation ===== -->
     <nav class="nav">
         <div class="nav-inner">
-            <div class="logo">🩺 艾检卫士 <span>❤️</span></div>
+            <a href="#" class="logo" onclick="switchPage('home');return false">
+                <span class="logo-icon">🩺</span>
+                艾检卫士 <span>❤️</span>
+            </a>
             <div class="nav-links">
                 <a class="active" onclick="switchPage('home')">风险评估</a>
                 <a onclick="switchPage('knowledge')">知识库</a>
                 <a onclick="switchPage('shop')">检测试剂</a>
-                <a onclick="switchPage('expert')">专家咨询</a>
+                <a onclick="switchPage('expert')">咨询</a>
                 <a href="blog/">文章</a>
             </div>
         </div>
     </nav>
 
-    <div class="container">
+    <!-- ===== PAGE: HOME ===== -->
+    <div id="page-home" class="page-section active">
 
-        <!-- ====== HOME (default) ====== -->
-        <div id="page-home" class="page-section active">
-            <div class="hero">
-                <h1>🤖 AI 恐艾风险评估 · 匿名心理疏导</h1>
-                <p>完全匿名，无需注册。基于最新中国艾滋病诊疗指南，提供专业的 HIV 风险评估、PEP 指导、窗口期解读和心理支持。</p>
-                <div class="stats">
-                    <div class="stat"><div class="stat-num">🔒</div><div class="stat-label">全程匿名</div></div>
-                    <div class="stat"><div class="stat-num">📋</div><div class="stat-label">基于指南</div></div>
-                    <div class="stat"><div class="stat-num">❤️</div><div class="stat-label">温暖陪伴</div></div>
-                    <div class="stat"><span class="ribbon">多病联防 · 公益指导</span></div>
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-inner">
+                <div class="hero-badge">
+                    <span>🔒</span> 完全匿名 · 无需注册
+                </div>
+                <h1>AI 恐艾风险评估<br><em>匿名心理疏导</em></h1>
+                <p>基于最新《中国艾滋病诊疗指南》，提供专业的 HIV 风险评估、PEP 指导、窗口期解读和心理支持。温暖、专业、保密。</p>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-num">🔒</div>
+                        <div class="hero-stat-label">全程匿名</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-num">📋</div>
+                        <div class="hero-stat-label">基于指南</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-num">❤️</div>
+                        <div class="hero-stat-label">温暖陪伴</div>
+                    </div>
+                    <div class="hero-stat">
+                        <span style="display:inline-block;background:rgba(255,255,255,0.12);backdrop-filter:blur(10px);padding:6px 14px;border-radius:6px;font-size:12px;color:rgba(255,255,255,0.9);border:1px solid rgba(255,255,255,0.08);">
+                            多病联防 · 公益指导
+                        </span>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <div class="main-grid">
+        <!-- Chat + Sidebar -->
+        <div class="section container">
+            <div class="chat-layout">
+                <!-- Chat -->
                 <div class="chat-card">
                     <div class="chat-header">
-                        <div class="avatar">🤝</div>
-                        <div>
-                            <div class="title">AI 心理疏导助手</div>
-                            <div class="subtitle">基于《中国艾滋病诊疗指南》| 匿名对话</div>
+                        <div class="chat-avatar">🤝</div>
+                        <div class="chat-header-info">
+                            <div class="chat-header-title">AI 心理疏导助手</div>
+                            <div class="chat-header-sub">基于《中国艾滋病诊疗指南》· 匿名对话</div>
+                        </div>
+                        <div class="chat-status">
+                            <span class="chat-status-dot"></span> 在线
                         </div>
                     </div>
                     <div class="chat-messages" id="chatMessages">
                         <div class="msg bot">
                             你好，我是艾检卫士的 AI 心理疏导助手。👋<br><br>
                             无论你是担心暴露风险、需要 PEP 指导，还是因为恐艾而焦虑失眠——这里安全、匿名、专业。<br><br>
-                            <strong>你可以这样问我：</strong><br>
+                            你可以这样问我：<br>
                             · "昨天发生了无套行为，风险大吗？"<br>
                             · "高危行为后多久可以检测？窗口期是多久？"<br>
                             · "我总是反复怀疑自己感染了，测了多次还是阴性，怎么办？"<br>
                             · "PEP 阻断药去哪里买？要在几小时内吃？"<br><br>
                             请放心描述你的情况，我会为你提供专业、温暖的回答。
-                            <div class="timestamp">现在</div>
+                            <div class="ts">现在</div>
                         </div>
                     </div>
                     <div class="typing" id="typing"><span></span><span></span><span></span></div>
-                    <div class="chat-input">
+                    <div class="chat-input-area">
                         <textarea id="userInput" rows="1" placeholder="描述你的情况，完全匿名…" oninput="this.style.height='';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
                         <button class="send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
                     </div>
-                    <div class="chat-footer">💬 所有对话匿名，不留记录</div>
+                    <div class="chat-footer">💬 所有对话匿名加密，不留记录 · 多病联防公益指导</div>
                 </div>
 
+                <!-- Sidebar -->
                 <div class="sidebar">
                     <div class="panel">
-                        <h3>⚡ 快捷提问</h3>
+                        <div class="panel-title">⚡ 快捷提问</div>
                         <button class="quick-btn" onclick="quickAsk('无套性行为后第3天，现在还能吃PEP阻断药吗？去哪里买？')">🆘 无套后能吃PEP吗？</button>
                         <button class="quick-btn" onclick="quickAsk('我高危行为后2周用试纸测了阴性，可以排除了吗？窗口期是多久？')">⏱ 高危后2周阴性，能排除吗？</button>
                         <button class="quick-btn" onclick="quickAsk('我测了6次都是阴性，但还是害怕，每天睡不着，怎么办？')">😰 测了6次阴性，还是害怕</button>
@@ -306,157 +672,131 @@
                     </div>
 
                     <div class="panel">
-                        <h3>🛒 推荐检测试剂</h3>
+                        <div class="panel-title">🛒 推荐检测试剂</div>
                         <div class="product-list">
                             <a class="product-item" href="https://search.jd.com/Search?keyword=HIV自检试纸" target="_blank" rel="nofollow sponsored">
-                                <div class="icon" style="background:#fff3f3;">🩸</div>
-                                <div class="info">
-                                    <div class="name">HIV 1/2 抗体自检试纸</div>
-                                    <div class="price">京东约 ¥29.9 <span class="tag">推荐</span></div>
+                                <div class="product-icon" style="background:var(--red-light);">🩸</div>
+                                <div class="product-info">
+                                    <div class="product-name">HIV 1/2 抗体自检试纸</div>
+                                    <div class="product-price">¥29.9 <span class="product-tag">推荐</span></div>
                                 </div>
                             </a>
                             <a class="product-item" href="https://search.jd.com/Search?keyword=HIV梅毒丙肝乙肝四联检测试纸" target="_blank" rel="nofollow sponsored">
-                                <div class="icon" style="background:#fff3e6;">🩸</div>
-                                <div class="info">
-                                    <div class="name">HIV+梅毒+丙肝+乙肝 四联检测</div>
-                                    <div class="price">京东约 ¥79.9 <span class="tag">超值</span></div>
+                                <div class="product-icon" style="background:#FFF3E6;">🩸</div>
+                                <div class="product-info">
+                                    <div class="product-name">HIV+梅毒+丙肝+乙肝 四联检测</div>
+                                    <div class="product-price">¥79.9 <span class="product-tag">超值</span></div>
                                 </div>
                             </a>
                         </div>
-                        <a class="btn-buy" href="https://search.jd.com/Search?keyword=艾滋病检测试纸" target="_blank" rel="nofollow sponsored">🛍️ 去京东查看全部检测试剂 →</a>
+                        <a class="buy-all-btn" href="https://search.jd.com/Search?keyword=艾滋病检测试纸" target="_blank" rel="nofollow sponsored">🛍️ 去京东查看全部检测试剂 →</a>
                     </div>
 
-                    <!-- Ad unit -->
                     <div class="ad-unit">
                         <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9946249937416673" data-ad-slot="YOUR_AD_SLOT" data-ad-format="auto"></ins>
-                        <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+                        <script>try{(adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){}</script>
                     </div>
 
-                    <div class="disclaimer-box">
+                    <div class="disclaimer">
                         ⚠️ <strong>免责声明：</strong>本工具提供的信息仅供参考，不构成医疗诊断。AI 回答基于公开医学指南，不能替代专业医生面诊。如有高危暴露，请尽快前往当地疾控中心或定点医院。
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- ====== KNOWLEDGE ====== -->
-        <div id="page-knowledge" class="page-section">
-            <div class="hero" style="background: linear-gradient(135deg, #1b3d3d, #2d6a4f);">
+    <!-- ===== PAGE: KNOWLEDGE ===== -->
+    <div id="page-knowledge" class="page-section">
+        <div class="section container">
+            <div class="section-hero" style="background:linear-gradient(135deg,var(--green-800),#1B6B5E);">
                 <h1>📚 艾滋病知识库</h1>
                 <p>基于最新医学指南的权威科普，多病联防公益指导</p>
             </div>
             <div class="kb-grid">
                 <div class="kb-card">
                     <h4>🕐 HIV 窗口期</h4>
-                    <p>第四代检测（医院/疾控）：2-4周可检出，6周基本排除。<br>快速试纸（自检）：4-6周可检出，12周完全排除。<br><br>如果高危行为后 3 个月检测阴性，可以完全排除感染。</p>
+                    <p>第四代检测（医院/疾控）：2-4周可检出，<strong>6周基本排除</strong>。<br>快速试纸（自检）：4-6周可检出，<strong>12周完全排除</strong>。<br><br>过了窗口期阴性即可完全排除感染。</p>
                 </div>
                 <div class="kb-card">
                     <h4>💊 PEP 暴露后预防</h4>
-                    <p>黄金 72 小时，越早越好！<br>• 最佳时间：2小时内<br>• 疗程：28天，不可中断<br>• 获取：当地疾控中心或传染病医院<br>• 成功率：按时完成 >99%</p>
+                    <p><strong>黄金72小时，越早越好！</strong><br>• ⏰ 最佳时间：2小时内<br>• 💊 疗程：28天，不可中断<br>• 🏥 获取：当地疾控或传染病医院<br>• ✅ 成功率 >99%</p>
                 </div>
                 <div class="kb-card">
-                    <h4>😰 恐艾症（AIDS Phobia）</h4>
-                    <p>一种真实的焦虑障碍。典型表现：<br>• 反复检测，即使阴性也不放心<br>• 不停搜索症状，越搜越怕<br>• 身体任何不适都联想到HIV<br><br>这不是"矫情"，是需要专业心理疏导的真实问题。</p>
+                    <h4>😰 恐艾症</h4>
+                    <p>一种真实的焦虑障碍。典型表现：反复检测仍不放心、不停搜索症状、身体不适就联想到HIV。<br><br><strong>这不是"矫情"，是需要专业疏导的真实问题。</strong></p>
                 </div>
                 <div class="kb-card">
                     <h4>🩸 检测方式对比</h4>
-                    <p>• 自检试纸：方便快捷，15分钟出结果，准确性99%+<br>• 疾控中心：免费、权威、完全保密<br>• 医院：可选实名或匿名，可做确诊实验<br><br>建议：自检阳性后一定要去疾控做确证实验。</p>
+                    <p>• 自检试纸：15分钟出结果，准确率99%+<br>• 疾控中心：免费、权威、完全保密<br>• 医院：可选实名或匿名<br><br>自检阳性 → 去疾控做确证实验。</p>
                 </div>
                 <div class="kb-card">
                     <h4>🤝 传播途径</h4>
-                    <p>HIV 传播需要同时满足三个条件：<br>• 有足够量的病毒（血液/精液/阴道分泌物）<br>• 有进入体内的途径（破损黏膜/伤口）<br>• 没有有效防护<br><br>日常接触、共餐、蚊虫叮咬、拥抱 <strong>不传播</strong>。</p>
+                    <p>HIV 传播需同时满足：足量病毒 + 进入途径 + 无防护。<br><br>日常接触、共餐、蚊虫叮咬、拥抱 <strong>不传播</strong>。</p>
                 </div>
                 <div class="kb-card">
                     <h4>📞 求助渠道</h4>
-                    <p>• 全国心理援助热线：<strong>400-161-9995</strong><br>• 当地疾控中心：可查本地HIV咨询检测点<br>• 全国HIV咨询检测：12320（卫生热线）<br>• 红丝带热线：010-63296171</p>
+                    <p>• 心理热线：<strong>400-161-9995</strong><br>• 卫生热线：12320<br>• 当地疾控中心<br>• 红丝带热线：010-63296171</p>
                 </div>
                 <div class="kb-card">
                     <h4>🦠 梅毒</h4>
-                    <p>梅毒与HIV常合并感染，建议同时检测。<br>• 一期：硬下疳（无痛溃疡）<br>• 二期：全身皮疹、淋巴结肿大<br>• 潜伏期：9-90天<br>• 治疗：青霉素可治愈，越早越好</p>
+                    <p>与HIV常合并感染，建议同时检测。<br>• 一期：硬下疳（无痛溃疡）<br>• 二期：全身皮疹<br>• 治疗：青霉素可治愈</p>
                 </div>
                 <div class="kb-card">
                     <h4>🦠 丙肝/乙肝</h4>
-                    <p>• 丙肝（HCV）：血液传播为主，现可治愈（DAAs药物）<br>• 乙肝（HBV）：有疫苗可预防，血液/性接触传播<br>• 建议有高危行为者做四联检测（HIV+梅毒+丙肝+乙肝）</p>
+                    <p>• 丙肝可通过DAAs药物治愈<br>• 乙肝有疫苗可预防<br>• 建议高危行为后做四联检测</p>
                 </div>
             </div>
-
-            <div class="ad-unit" style="margin-top:24px;">
-                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9946249937416673" data-ad-slot="YOUR_AD_SLOT2" data-ad-format="auto"></ins>
-                <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
-            </div>
         </div>
+    </div>
 
-        <!-- ====== SHOP ====== -->
-        <div id="page-shop" class="page-section">
-            <div class="hero" style="background: linear-gradient(135deg, #8b1a2b, #cc1838);">
+    <!-- ===== PAGE: SHOP ===== -->
+    <div id="page-shop" class="page-section">
+        <div class="section container">
+            <div class="section-hero" style="background:linear-gradient(135deg,#8B1A2B,var(--red));">
                 <h1>🛒 检测试剂推荐</h1>
                 <p>点击下方商品跳转京东/天猫购买，正规渠道，正品保障</p>
             </div>
-
-            <p style="text-align:center;color:#666;margin-bottom:20px;font-size:14px;">
-                ⚠️ 以下商品链接为京东/天猫官方搜索结果，本站仅做推荐，不直接销售。
-            </p>
-
+            <p style="text-align:center;color:var(--gray-600);margin-bottom:24px;font-size:14px;">⚠️ 本站仅做推荐，不直接销售。以下链接为京东搜索结果。</p>
             <div class="shop-grid">
                 <div class="shop-card">
-                    <div class="emoji">🩸</div>
+                    <span class="emoji">🩸</span>
                     <h4>HIV 1/2 抗体检测试纸</h4>
-                    <div class="desc">国家药监局批准，准确率99.9%以上<br>15分钟出结果，操作简单，隐私保护</div>
-                    <div class="price-tag">¥29.9</div>
+                    <div class="desc">国家药监局批准，准确率99.9%以上<br>15分钟出结果，操作简单</div>
+                    <div class="price">¥29.9</div>
                     <a class="shop-btn" href="https://search.jd.com/Search?keyword=HIV自检试纸官方旗舰店" target="_blank" rel="nofollow sponsored">去京东购买 →</a>
-                    <div class="shop-note">京东自营 · 正品保障</div>
                 </div>
                 <div class="shop-card">
-                    <div class="emoji">🩸</div>
+                    <span class="emoji">🩸</span>
                     <h4>HIV+梅毒+丙肝+乙肝 四联检测</h4>
                     <div class="desc">一次检测四项，性价比之选<br>适合高风险人群定期筛查</div>
-                    <div class="price-tag">¥79.9</div>
+                    <div class="price">¥79.9</div>
                     <a class="shop-btn" href="https://search.jd.com/Search?keyword=四联检测试纸HIV梅毒丙肝乙肝" target="_blank" rel="nofollow sponsored">去京东购买 →</a>
-                    <div class="shop-note">京东自营 · 四联更划算</div>
                 </div>
                 <div class="shop-card">
-                    <div class="emoji">🩸</div>
+                    <span class="emoji">🩸</span>
                     <h4>梅毒螺旋体抗体检测</h4>
                     <div class="desc">单独梅毒检测，适合针对性筛查<br>操作简便，准确率高</div>
-                    <div class="price-tag">¥19.9</div>
+                    <div class="price">¥19.9</div>
                     <a class="shop-btn" href="https://search.jd.com/Search?keyword=梅毒自检试纸" target="_blank" rel="nofollow sponsored">去京东购买 →</a>
-                    <div class="shop-note">京东自营 · 正品保障</div>
                 </div>
                 <div class="shop-card">
-                    <div class="emoji">🩸</div>
+                    <span class="emoji">🩸</span>
                     <h4>丙肝/乙肝检测试纸</h4>
                     <div class="desc">丙肝和乙肝单项检测<br>高危行为后建议一并筛查</div>
-                    <div class="price-tag">¥19.9起</div>
+                    <div class="price">¥19.9起</div>
                     <a class="shop-btn" href="https://search.jd.com/Search?keyword=丙肝检测试纸" target="_blank" rel="nofollow sponsored">去京东购买 →</a>
-                    <div class="shop-note">京东自营 · 正品保障</div>
                 </div>
             </div>
-
-            <div class="disclaimer-box" style="margin-top:20px;">
-                ⚠️ <strong>友情提示：</strong>自检试纸为筛查工具，检测结果阳性（两条线）不代表确诊，请务必前往当地疾控中心做确证实验。阴性（一条线）如果在窗口期后，可以排除感染。
-            </div>
-
-            <div style="background:white;border-radius:16px;padding:24px;margin-top:20px;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
-                <h3 style="color:#1b3d3d;margin-bottom:12px;">💡 检测建议</h3>
-                <p style="color:#555;line-height:1.8;font-size:14px;">
-                    <strong>什么情况下需要检测？</strong><br>
-                    • 有过无套性行为（肛交/阴道交）<br>
-                    • 性伴侣感染HIV或感染状态不明<br>
-                    • 共用针具注射毒品<br>
-                    • 遭受性侵犯<br>
-                    • 有多个性伴侣或男男性行为者建议每3-6个月定期检测<br><br>
-                    <strong>检测前注意事项：</strong><br>
-                    • 请确认在窗口期后检测<br>
-                    • 检测前无需空腹<br>
-                    • 请仔细阅读说明书操作<br>
-                    • 血液样本量要足够
-                </p>
+            <div class="disclaimer" style="margin-top:20px;">
+                ⚠️ <strong>友情提示：</strong>自检试纸为筛查工具，阳性不代表确诊，请前往当地疾控中心做确证实验。阴性如果在窗口期后，可以排除感染。
             </div>
         </div>
+    </div>
 
-        <!-- ====== EXPERT ====== -->
-        <div id="page-expert" class="page-section">
-            <div class="hero" style="background: linear-gradient(135deg, #1b3d3d, #40916c);">
+    <!-- ===== PAGE: EXPERT ===== -->
+    <div id="page-expert" class="page-section">
+        <div class="section container">
+            <div class="section-hero" style="background:linear-gradient(135deg,var(--green-800),var(--green-600));">
                 <h1>👨‍⚕️ 多病联防 · 专业咨询</h1>
                 <p>专业顾问提供一对一健康咨询</p>
             </div>
@@ -476,28 +816,16 @@
                         <strong>咨询时长：</strong>30分钟 / 次<br>
                         <strong>费用：</strong>¥99 / 次（公益价）
                     </div>
-                    <a class="expert-btn" href="#" onclick="alert('请通过微信联系：微信号 yongcheng-cdc-hiv\n（添加时备注"艾检卫士"）')">📱 预约咨询</a>
+                    <button class="expert-btn" onclick="alert('请通过微信联系：微信号 yongcheng-cdc-hiv\n（添加时备注"艾检卫士"）')">📱 预约咨询</button>
                 </div>
             </div>
-            <div style="background:white;border-radius:16px;padding:24px;margin-top:20px;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
-                <h3 style="color:#1b3d3d;margin-bottom:12px;">❓ 适合哪些人咨询</h3>
-                <ul style="color:#555;line-height:2;font-size:14px;padding-left:20px;">
-                    <li><strong>🆘 高危行为后</strong> — 需要PEP指导，不确定该怎么做</li>
-                    <li><strong>😰 恐艾严重</strong> — 多次检测阴性仍无法摆脱恐惧</li>
-                    <li><strong>🩸 检测结果解读</strong> — 拿到检测报告不知道是什么意思</li>
-                    <li><strong>📋 定期筛查规划</strong> — 需要专业建议制定检测计划</li>
-                    <li><strong>💊 感染者关怀</strong> — 确诊后需要心理支持和随访指导</li>
-                </ul>
-            </div>
         </div>
-
     </div>
 
+    <!-- ===== Footer ===== -->
     <footer>
         <p>© 2026 艾检卫士 · 多病联防公益指导 · 让每个人都能获得专业的健康知识</p>
-        <p style="margin-top:4px;font-size:12px;color:#ccc;">
-            <a href="https://toolspotr.com" style="color:#aaa;text-decoration:none;">toolspotr.com</a>
-        </p>
+        <p style="margin-top:4px;font-size:12px;opacity:0.6;"><a href="https://toolspotr.com">toolspotr.com</a></p>
     </footer>
 
     <script>
@@ -506,8 +834,14 @@
             document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
             document.getElementById('page-' + page).classList.add('active');
-            document.querySelector(`.nav-links a[onclick*="'${page}'"]`).classList.add('active');
+            const link = document.querySelector(`.nav-links a[onclick*="'${page}'"]`);
+            if (link) link.classList.add('active');
+            window.scrollTo({ top: 64, behavior: 'smooth' });
         }
+
+        // ====== DeepSeek API Config ======
+        const API_URL = 'https://hiv-api-backend.onrender.com/api/aids-chat';
+        let chatSessionId = '';
 
         // ====== Chat ======
         const chatMessages = document.getElementById('chatMessages');
@@ -522,17 +856,10 @@
         function addMessage(text, isUser) {
             const div = document.createElement('div');
             div.className = `msg ${isUser ? 'user' : 'bot'}`;
-            div.innerHTML = text + `<div class="timestamp">${new Date().toLocaleTimeString('zh-CN', {hour:'2-digit',minute:'2-digit'})}</div>`;
+            div.innerHTML = text + `<div class="ts">${new Date().toLocaleTimeString('zh-CN', {hour:'2-digit',minute:'2-digit'})}</div>`;
             chatMessages.appendChild(div);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
-
-        // ====== DeepSeek API 配置 ======
-        // 方式一：Render 部署（推荐，请替换为你的 Render URL）
-        // 方式二：本地运行（双击 start_api.bat 后取消下面一行的注释）
-        const API_URL = 'https://hiv-api-backend.onrender.com/api/aids-chat';
-        // const API_URL = 'http://localhost:8080/api/aids-chat';
-        let chatSessionId = '';
 
         async function sendMessage() {
             const text = userInput.value.trim();
@@ -560,7 +887,6 @@
                 addMessage(data.reply.replace(/\n/g, '<br>'), false);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             } catch (err) {
-                // API 不可用时使用本地回复
                 typing.classList.remove('show');
                 sendBtn.disabled = false;
                 addMessage(getReply(text), false);
@@ -574,13 +900,13 @@
             sendMessage();
         }
 
-        // ====== 专业回复引擎 ======
+        // ====== Local Reply Engine ======
         function getReply(text) {
             const t = text.toLowerCase();
 
             if (t.includes('pep') || t.includes('阻断') || t.includes('暴露后') || (t.includes('无套') && t.includes('几天'))) {
                 return '📌 <strong>PEP（暴露后预防）关键信息：</strong><br><br>' +
-                       '• ⏰ <strong>黄金时间：</strong>高危行为后 <strong>72小时内</strong>，越早越好，最好在2小时内！<br>' +
+                       '• ⏰ <strong>黄金时间：</strong>高危行为后 <strong>72小时</strong>内，越早越好，最好在2小时内！<br>' +
                        '• 💊 疗程：连续服用28天，不可中断<br>' +
                        '• 🏥 <strong>获取途径：</strong>当地疾控中心、传染病医院感染科<br>' +
                        '• ✅ 按时完成PEP，阻断成功率可达 <strong>99%以上</strong><br><br>' +
@@ -639,24 +965,12 @@
 
             if (t.includes('四联') || t.includes('梅毒') || t.includes('丙肝') || t.includes('乙肝')) {
                 return '📌 <strong>关于梅毒/丙肝/乙肝共感染：</strong><br><br>' +
-                       '这些疾病与 HIV 有相似的传播途径，建议高危行为后一并筛查：<br><br>' +
-                       '🦠 <strong>梅毒：</strong><br>' +
-                       '• 窗口期：9-90天<br>' +
-                       '• 症状：一期无痛溃疡（硬下疳），二期全身皮疹<br>' +
-                       '• 治疗：青霉素可完全治愈<br>' +
-                       '• ⚠️ 梅毒溃疡会增加HIV感染风险<br><br>' +
-                       '🦠 <strong>丙肝（HCV）：</strong><br>' +
-                       '• 血液传播为主，现已有根治性药物（DAAs）<br>' +
-                       '• 建议所有HIV感染者筛查丙肝<br><br>' +
-                       '🦠 <strong>乙肝（HBV）：</strong><br>' +
-                       '• 有疫苗可预防<br>' +
-                       '• 慢性乙肝需要定期随访<br><br>' +
+                       '这些疾病与 HIV 有相似的传播途径，建议高危行为后一并筛查。<br><br>' +
                        '💡 推荐购买 <strong>四联检测试纸</strong>，一次筛查四项，更放心。';
             }
 
-            // 默认综合回复
-            return '感谢你的信任和勇气，愿意说出你的担忧。🙏<br><br>' +
-                   '我理解你现在可能有各种担忧和不安。为了更好地帮助你，你可以告诉我：<br><br>' +
+            return '🙏 感谢你的信任和勇气。<br><br>' +
+                   '你可以告诉我更多细节：<br>' +
                    '• <strong>发生了什么？</strong>（比如无套性行为、针具共用等）<br>' +
                    '• <strong>多久前发生的？</strong>（这决定是否还能使用PEP阻断）<br>' +
                    '• <strong>你现在最担心什么？</strong><br><br>' +
@@ -664,7 +978,7 @@
                    '🔒 请放心，所有对话都是匿名的。';
         }
 
-        // ====== 初始化 AdSense ======
+        // ====== AdSense Init ======
         try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
     </script>
 </body>
