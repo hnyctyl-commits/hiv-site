@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hiv.toolspotr.com/sitemap.xml
