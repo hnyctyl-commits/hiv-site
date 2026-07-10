@@ -473,7 +473,7 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        async function sendMessage() {
+        function sendMessage() {
             const text = userInput.value.trim();
             if (!text) return;
 
@@ -483,25 +483,13 @@
             sendBtn.disabled = true;
             typing.classList.add('show');
 
-            try {
-                const response = await fetch('https://你的后端地址.com/api/aids-chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: text })
-                });
-                const data = await response.json();
+            // 模拟延迟，更像真人对话
+            setTimeout(() => {
                 typing.classList.remove('show');
-                // 支持 Markdown 风格的换行
-                const reply = data.reply.replace(/\n/g, '<br>');
-                addMessage(reply, false);
-            } catch (err) {
-                typing.classList.remove('show');
-                // 后端未部署时用本地 fallback
-                addMessage(getLocalReply(text), false);
-            } finally {
                 sendBtn.disabled = false;
+                addMessage(getReply(text), false);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
+            }, 600 + Math.random() * 800);
         }
 
         function quickAsk(text) {
@@ -510,8 +498,8 @@
             sendMessage();
         }
 
-        // ===== 离线备用回复（后端部署前可用） =====
-        function getLocalReply(text) {
+        // ====== 专业回复引擎（无需后端，纯本地） ======
+        function getReply(text) {
             const t = text.toLowerCase();
             if (t.includes('pep') || t.includes('阻断') || t.includes('暴露后')) {
                 return '📌 <strong>PEP（暴露后预防）关键信息：</strong><br><br>' +
