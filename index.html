@@ -527,6 +527,10 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
+        // ====== DeepSeek API 配置（部署后替换下面的 URL） ======
+        const API_URL = 'https://hiv-api-backend.onrender.com/api/aids-chat';
+        let chatSessionId = '';
+
         async function sendMessage() {
             const text = userInput.value.trim();
             if (!text) return;
@@ -535,13 +539,30 @@
             sendBtn.disabled = true;
             typing.classList.add('show');
 
-            // 模拟延迟，更像真人对话
-            setTimeout(() => {
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 8000);
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text, session_id: chatSessionId }),
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
+                if (!response.ok) throw new Error('API error');
+                const data = await response.json();
+                chatSessionId = data.session_id || chatSessionId;
+                typing.classList.remove('show');
+                sendBtn.disabled = false;
+                addMessage(data.reply.replace(/\n/g, '<br>'), false);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            } catch (err) {
+                // API 不可用时使用本地回复
                 typing.classList.remove('show');
                 sendBtn.disabled = false;
                 addMessage(getReply(text), false);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 600 + Math.random() * 800);
+            }
         }
 
         function quickAsk(text) {
