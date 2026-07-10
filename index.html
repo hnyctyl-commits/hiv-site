@@ -134,13 +134,39 @@
         }
         .hero-content { max-width: 700px; }
         .hero-badge {
-            display: inline-flex; align-items: center; gap: 6px;
-            background: rgba(255,255,255,0.12);
-            backdrop-filter: blur(10px);
-            padding: 6px 16px; border-radius: 20px;
-            font-size: 13px; color: rgba(255,255,255,0.9);
-            margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
+            display: inline-flex; align-items: center; gap: 12px;
+            background: linear-gradient(135deg, rgba(204,24,56,0.2), rgba(255,255,255,0.08));
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 8px 20px; border-radius: 50px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(204,24,56,0.2);
+            box-shadow: 0 4px 20px rgba(204,24,56,0.08);
+        }
+        .hero-badge .icon-wrap {
+            width: 32px; height: 32px;
+            background: rgba(204,24,56,0.25);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px;
+        }
+        .hero-badge .text-main {
+            font-size: 15px; font-weight: 700;
+            color: rgba(255,255,255,0.95);
+            letter-spacing: 0.5px;
+        }
+        .hero-badge .text-sub {
+            font-size: 13px; font-weight: 400;
+            color: rgba(255,255,255,0.6);
+            padding: 3px 10px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        @media (max-width: 600px) {
+            .hero-badge { flex-wrap: wrap; gap: 8px; padding: 8px 16px; }
+            .hero-badge .text-main { font-size: 14px; }
+            .hero-badge .text-sub { font-size: 12px; }
         }
         .hero h1 {
             font-size: clamp(32px, 5vw, 48px);
@@ -598,7 +624,9 @@
         <section class="hero">
             <div class="hero-inner">
                 <div class="hero-badge">
-                    <span>🔒</span> 完全匿名 · 无需注册
+                    <span class="icon-wrap">🔒</span>
+                    <span class="text-main">完全匿名</span>
+                    <span class="text-sub">无需注册 · 不留记录</span>
                 </div>
                 <h1>AI 恐艾风险评估<br><em>匿名心理疏导</em></h1>
                 <p>基于最新《中国艾滋病诊疗指南》，提供专业的 HIV 风险评估、PEP 指导、窗口期解读和心理支持。温暖、专业、保密。</p>
