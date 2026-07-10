@@ -993,9 +993,18 @@
                     </div>
                 </div>
                 <!-- Right: QR Code -->
-                <div style="background:var(--white);border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow-sm);border:1px solid var(--gray-200);display:flex;flex-direction:column;align-items:center;justify-content:center;">
-                    <p style="font-size:15px;font-weight:600;color:var(--green-900);margin-bottom:16px;">💳 微信扫码支付</p>
-                    <img src="assets/qr-pay.png" alt="微信收款码" style="width:200px;height:200px;border-radius:var(--radius-md);object-fit:contain;border:1px solid var(--gray-200);">
+                <div style="background:linear-gradient(180deg,var(--white),var(--green-50));border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow-sm);border:1px solid var(--green-200);display:flex;flex-direction:column;align-items:center;text-align:center;">
+                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:16px;">
+                        <span style="font-size:18px;">💳</span>
+                        <span style="font-size:15px;font-weight:700;color:var(--green-900);">微信扫码支付</span>
+                    </div>
+                    <div style="background:var(--white);padding:8px;border-radius:var(--radius-md);box-shadow:0 4px 16px rgba(0,0,0,0.06);border:1px solid var(--green-200);">
+                        <img src="assets/qr-pay.png" alt="微信收款码" style="width:180px;height:180px;border-radius:6px;object-fit:contain;display:block;">
+                    </div>
+                    <div style="margin-top:12px;display:flex;flex-direction:column;gap:4px;">
+                        <span style="font-size:13px;font-weight:600;color:var(--green-700);">扫一扫 · 安全支付</span>
+                        <span style="font-size:11px;color:var(--gray-400);">付款后加微信发截图 · 24h内联系</span>
+                    </div>
                 </div>
             </div>
         </div>
