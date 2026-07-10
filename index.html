@@ -995,12 +995,7 @@
                 <!-- Right: QR Code -->
                 <div style="background:var(--white);border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow-sm);border:1px solid var(--gray-200);display:flex;flex-direction:column;align-items:center;justify-content:center;">
                     <p style="font-size:15px;font-weight:600;color:var(--green-900);margin-bottom:16px;">💳 微信扫码支付</p>
-                    <div id="qrPlaceholder" style="width:200px;height:200px;background:var(--gray-50);border-radius:var(--radius-md);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px;color:var(--gray-400);border:2px dashed var(--gray-200);cursor:pointer;" onclick="document.getElementById('qrInput').click()">
-                        <span style="font-size:40px;margin-bottom:8px;">📷</span>
-                        <span>上传收款码</span>
-                    </div>
-                    <input type="file" id="qrInput" accept="image/*" style="display:none" onchange="uploadQR(event)">
-                    <p style="font-size:12px;color:var(--gray-400);margin-top:12px;">上传后自动保存，下次打开仍在</p>
+                    <img src="assets/qr-pay.png" alt="微信收款码" style="width:200px;height:200px;border-radius:var(--radius-md);object-fit:contain;border:1px solid var(--gray-200);">
                 </div>
             </div>
         </div>
@@ -1187,33 +1182,6 @@
                 prompt('复制微信号：', text);
             });
         }
-
-        // ====== Upload QR Code ======
-        function uploadQR(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const qrDiv = document.getElementById('qrPlaceholder');
-                qrDiv.innerHTML = `<img src="${e.target.result}" style="width:180px;height:180px;border-radius:var(--radius-sm);object-fit:contain;">`;
-                qrDiv.style.border = 'none';
-                qrDiv.style.background = 'white';
-                // 保存到 localStorage 以便刷新后保持
-                localStorage.setItem('care_qr_code', e.target.result);
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // ====== Load saved QR on page load ======
-        window.addEventListener('DOMContentLoaded', function() {
-            const savedQR = localStorage.getItem('care_qr_code');
-            if (savedQR) {
-                const qrDiv = document.getElementById('qrPlaceholder');
-                qrDiv.innerHTML = `<img src="${savedQR}" style="width:180px;height:180px;border-radius:var(--radius-sm);object-fit:contain;">`;
-                qrDiv.style.border = 'none';
-                qrDiv.style.background = 'white';
-            }
-        });
 
         // ====== AdSense Init ======
         try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
