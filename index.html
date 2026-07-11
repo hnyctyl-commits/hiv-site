@@ -1473,6 +1473,27 @@
         const API_URL = 'https://hiv.toolspotr.com/api/aids-chat';
         let chatSessionId = '';
 
+        // ====== Instant answer cache ======
+        const instantAnswers = {
+            '\uD83D\uDE36 无套后能吃PEP吗？': '📌 <strong>PEP关键信息：</strong><br><br>• ⏰ <strong>黄金72小时</strong>，越早越好，2小时内最佳<br>• 💊 疗程28天，不可中断<br>• 🏥 去疾控中心或传染病医院感染科<br>• ✅ 规范服用成功率 >99%<br><br>💬 正在让AI帮你详细分析，马上就好…',
+            '\u23F1 高危后2周阴性，能排除吗？': '📌 <strong>窗口期解答：</strong><br><br>• 第四代检测（医院）：2周可检出p24抗原，<strong>6周基本排除</strong><br>• 快速试纸（自检）：4周可检出，<strong>12周完全排除</strong><br>• 2周阴性是好迹象，建议6周后复查确认<br><br>💬 正在为你准备更详细的分析…',
+            '\uD83D\uDE30 测了6次阴性，还是害怕': '💙 <strong>你已经安全了。</strong><br><br>测6次足够了。你的恐惧不是HIV，是<strong>恐艾症</strong>——继续测只会加深焦虑循环。<br>建议：停止搜索和检测，相信科学结果。<br><br>💬 让AI再给你详细分析一下…',
+            '\uD83E\uDD14 口交会感染吗？': '📌 <strong>口交风险极低：</strong><br><br>• 无套口交（对方无射精）：基本为零<br>• 无套口交（对方射精）：<0.01%<br>• 全球范围内没有可靠的口交传播案例<br><br>💬 让AI给你更详细的分析…',
+            '\uD83E\uDD12 HIV症状 vs 感冒？': '📌 <strong>两者症状高度重叠，无法凭症状判断。</strong><br><br>发热、咽痛、淋巴结肿大——HIV急性期和感冒几乎一样。<br>唯一可靠的方法：窗口期后做检测。<br><br>💬 正在为你准备详细分析…'
+        };
+
+        // Override quickAsk
+        const originalQuickAsk = quickAsk;
+        quickAsk = function(text) {
+            for (const [key, answer] of Object.entries(instantAnswers)) {
+                if (text.includes(key.slice(2, 4))) {
+                    addMessage(answer, false);
+                    break;
+                }
+            }
+            originalQuickAsk(text);
+        };
+
         // ====== Chat ======
         const chatMessages = document.getElementById('chatMessages');
         const userInput = document.getElementById('userInput');
