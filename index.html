@@ -557,202 +557,56 @@
         .expert-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(204,24,56,0.3); }
 
         /* ===== Risk Calculator ===== */
-        .risk-wrapper {
-            max-width: 640px; margin: -24px auto 0;
-            position: relative; z-index: 2;
-        }
-        .risk-card {
-            background: var(--white);
-            border-radius: var(--radius-xl);
-            padding: 36px 32px 28px;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid rgba(0,0,0,0.04);
-        }
-        .risk-steps-bar {
-            display: flex; gap: 0;
-            margin-bottom: 32px;
-            background: var(--gray-100);
-            border-radius: var(--radius-md);
-            padding: 4px;
-            position: relative;
-        }
-        .risk-step-indicator {
-            flex: 1; text-align: center;
-            padding: 8px 4px;
-            border-radius: 8px;
-            font-size: 11px; font-weight: 500;
-            color: var(--gray-400);
-            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
-            position: relative;
-        }
-        .risk-step-indicator .num {
-            width: 22px; height: 22px;
-            display: inline-flex; align-items: center; justify-content: center;
-            border-radius: 50%;
-            background: var(--gray-200);
-            color: var(--gray-500);
-            font-size: 11px; font-weight: 700;
-            margin-bottom: 4px;
-            transition: all 0.4s ease;
-        }
-        .risk-step-indicator .label {
-            display: block;
-            font-size: 11px; line-height: 1.2;
-        }
-        .risk-step-indicator.active {
-            background: var(--white);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            color: var(--green-800);
-        }
-        .risk-step-indicator.active .num {
-            background: linear-gradient(135deg, var(--green-600), var(--green-500));
-            color: white;
-        }
-        .risk-step-indicator.done {
-            color: var(--green-600);
-        }
-        .risk-step-indicator.done .num {
-            background: var(--green-500);
-            color: white;
-        }
-        .risk-form-area {
-            min-height: 340px;
-            position: relative;
-        }
+        .risk-wrapper { max-width: 640px; margin: -24px auto 0; position: relative; z-index: 2; }
+        .risk-card { background: var(--white); border-radius: var(--radius-xl); padding: 28px 24px; box-shadow: 0 6px 28px rgba(0,0,0,0.07); border: 1px solid rgba(0,0,0,0.04); }
+        .risk-steps-bar { display: flex; gap: 0; margin-bottom: 24px; position: relative; justify-content: space-between; }
+        .risk-steps-bar::before { content: ''; position: absolute; top: 11px; left: 20px; right: 20px; height: 2px; background: var(--gray-200); z-index: 0; }
+        .risk-step-indicator { display: flex; flex-direction: column; align-items: center; gap: 4px; position: relative; z-index: 1; flex: 1; }
+        .risk-step-indicator .circle { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; background: var(--gray-200); color: var(--gray-400); border: 2px solid var(--gray-200); transition: all 0.35s ease; }
+        .risk-step-indicator .label { font-size: 9px; color: var(--gray-400); font-weight: 500; white-space: nowrap; transition: color 0.3s; }
+        .risk-step-indicator.active .circle { background: linear-gradient(135deg, var(--green-600), var(--green-500)); border-color: var(--green-500); color: white; box-shadow: 0 2px 6px rgba(45,143,111,0.25); }
+        .risk-step-indicator.active .label { color: var(--green-700); font-weight: 600; }
+        .risk-step-indicator.done .circle { background: var(--green-500); border-color: var(--green-500); color: white; }
+        .risk-step-indicator.done .label { color: var(--green-500); }
+        .risk-form-area { min-height: 300px; position: relative; }
         .risk-step { display: none; }
-        .risk-step.active { display: block; }
-        .risk-step-title {
-            font-size: 17px; font-weight: 700;
-            color: var(--green-900);
-            margin-bottom: 4px;
-        }
-        .risk-step-sub {
-            font-size: 13px; color: var(--gray-400);
-            margin-bottom: 20px;
-        }
-        .risk-option {
-            display: block; width: 100%; padding: 14px 18px; margin-bottom: 8px;
-            background: var(--white);
-            border: 2px solid var(--gray-200);
-            border-radius: var(--radius-md); cursor: pointer;
-            font-size: 14px; color: var(--gray-700); text-align: left;
-            transition: all 0.2s ease; font-family: inherit;
-            position: relative;
-        }
-        .risk-option:hover {
-            border-color: var(--green-300);
-            background: var(--green-50);
-            transform: translateX(4px);
-        }
-        .risk-option.selected {
-            border-color: var(--green-600);
-            background: linear-gradient(135deg, var(--green-50), #e8f8f0);
-            color: var(--green-800); font-weight: 600;
-            box-shadow: 0 0 0 3px rgba(45,143,111,0.1);
-        }
-        .risk-option.selected::after {
-            content: '✓';
-            position: absolute; right: 16px; top: 50%;
-            transform: translateY(-50%);
-            color: var(--green-600);
-            font-size: 18px; font-weight: 800;
-        }
-        .risk-option .tag {
-            display: inline-block;
-            font-size: 10px; padding: 1px 8px;
-            border-radius: 10px; font-weight: 600;
-            margin-left: 6px;
-        }
+        .risk-step.active { display: block; animation: fadeSlideStep 0.3s ease; }
+        @keyframes fadeSlideStep { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+        .risk-step-title { font-size: 15px; font-weight: 700; color: var(--green-900); margin-bottom: 2px; }
+        .risk-step-sub { font-size: 12px; color: var(--gray-400); margin-bottom: 14px; }
+        .risk-option { display: block; width: 100%; padding: 11px 16px; margin-bottom: 6px; background: var(--white); border: 1.5px solid var(--gray-200); border-radius: 10px; cursor: pointer; font-size: 13px; color: var(--gray-700); text-align: left; transition: all 0.2s ease; font-family: inherit; position: relative; }
+        .risk-option:last-of-type { margin-bottom: 0; }
+        .risk-option:hover { border-color: var(--green-300); background: var(--green-50); transform: translateX(3px); }
+        .risk-option.selected { border-color: var(--green-600); background: linear-gradient(135deg, var(--green-50), #e8f8f0); color: var(--green-800); font-weight: 600; box-shadow: 0 0 0 3px rgba(45,143,111,0.08); }
+        .risk-option.selected::after { content: '\2713'; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--green-600); font-size: 15px; font-weight: 800; }
+        .tag { display: inline-block; font-size: 9px; padding: 1px 7px; border-radius: 8px; font-weight: 600; margin-right: 5px; }
         .tag-high { background: #fde8ec; color: #cc1838; }
         .tag-mid { background: #fef3e2; color: #e67e22; }
         .tag-low { background: #e8f5e9; color: #27ae60; }
-        .risk-nav {
-            display: flex; justify-content: space-between;
-            margin-top: 24px; padding-top: 20px;
-            border-top: 1px solid var(--gray-100);
-        }
-        .risk-btn {
-            padding: 12px 28px; border: none; border-radius: var(--radius-sm);
-            font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
-            transition: all 0.2s ease;
-        }
-        .risk-btn-prev {
-            background: var(--gray-100); color: var(--gray-600);
-        }
-        .risk-btn-prev:hover { background: var(--gray-200); }
-        .risk-btn-next {
-            background: linear-gradient(135deg, var(--green-600), var(--green-500));
-            color: white; box-shadow: 0 4px 12px rgba(45,143,111,0.25);
-        }
-        .risk-btn-next:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(45,143,111,0.35); }
-        .risk-btn-next:disabled {
-            opacity: 0.4; cursor: not-allowed;
-            transform: none; box-shadow: none;
-        }
-        .risk-btn-finish {
-            background: linear-gradient(135deg, var(--green-700), var(--green-500));
-            color: white; box-shadow: 0 4px 16px rgba(45,143,111,0.3);
-        }
-        .risk-btn-finish:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(45,143,111,0.4); }
-
-        /* Result */
-        .risk-result-wrap {
-            animation: fadeUp 0.5s ease;
-        }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .risk-result-card {
-            background: var(--white);
-            border-radius: var(--radius-xl);
-            padding: 36px 32px;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid rgba(0,0,0,0.04);
-            max-width: 600px; margin: -24px auto 0;
-            position: relative; z-index: 2;
-            text-align: center;
-        }
-        .risk-result-icon { font-size: 72px; margin-bottom: 8px; display: block; }
-        .risk-result-label { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
-        .risk-result-desc { font-size: 14px; color: var(--gray-500); margin-bottom: 20px; }
-        .risk-result-badge {
-            display: inline-block;
-            padding: 6px 20px; border-radius: 20px;
-            font-size: 13px; font-weight: 600;
-            margin-bottom: 20px;
-        }
-        .risk-alert-box {
-            border-radius: var(--radius-md);
-            padding: 16px 18px; margin-bottom: 16px;
-            text-align: center; line-height: 1.5;
-        }
-        .risk-advice-box {
-            background: var(--green-50);
-            border-radius: var(--radius-md);
-            padding: 18px 20px;
-            text-align: left; margin-bottom: 16px;
-        }
-        .risk-advice-box h4 {
-            font-size: 14px; color: var(--green-900);
-            margin-bottom: 10px;
-        }
-        .risk-advice-box li {
-            margin: 8px 0; font-size: 13px;
-            color: var(--gray-600); line-height: 1.5;
-            padding-left: 4px;
-        }
+        .risk-nav { display: flex; justify-content: space-between; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--gray-100); }
+        .risk-btn { padding: 9px 22px; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s ease; }
+        .risk-btn-prev { background: var(--gray-100); color: var(--gray-600); } .risk-btn-prev:hover { background: var(--gray-200); }
+        .risk-btn-next { background: linear-gradient(135deg, var(--green-600), var(--green-500)); color: white; box-shadow: 0 3px 8px rgba(45,143,111,0.2); }
+        .risk-btn-next:hover { transform: translateY(-1px); }
+        .risk-btn-next:disabled, .risk-btn-finish:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+        .risk-btn-finish { background: linear-gradient(135deg, var(--green-700), var(--green-500)); color: white; box-shadow: 0 3px 10px rgba(45,143,111,0.22); }
+        .risk-btn-finish:hover { transform: translateY(-1px); }
+        
+        .risk-result-wrap { animation: fadeSlideStep 0.45s ease; }
+        .risk-result-card { background: var(--white); border-radius: var(--radius-xl); padding: 28px 24px; box-shadow: 0 6px 28px rgba(0,0,0,0.07); border: 1px solid rgba(0,0,0,0.04); max-width: 600px; margin: -24px auto 0; position: relative; z-index: 2; text-align: center; }
+        .risk-result-icon { font-size: 52px; margin-bottom: 2px; display: block; }
+        .risk-result-label { font-size: 20px; font-weight: 800; margin-bottom: 2px; }
+        .risk-result-desc { font-size: 12px; color: var(--gray-500); margin-bottom: 14px; }
+        .risk-gauge { width: 180px; height: 6px; background: var(--gray-200); border-radius: 3px; margin: 10px auto 14px; overflow: hidden; }
+        .risk-gauge-fill { height: 100%; border-radius: 3px; transition: width 0.8s cubic-bezier(0.4,0,0.2,1), background 0.5s; }
+        .risk-result-badge { display: inline-block; padding: 4px 16px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-bottom: 14px; }
+        .risk-alert-box { border-radius: 8px; padding: 12px 14px; margin-bottom: 12px; text-align: center; font-size: 13px; line-height: 1.5; }
+        .risk-advice-box { background: var(--green-50); border-radius: 8px; padding: 14px 16px; text-align: left; margin-bottom: 12px; }
+        .risk-advice-box h4 { font-size: 12px; color: var(--green-900); margin-bottom: 6px; }
+        .risk-advice-box li { margin: 5px 0; font-size: 12px; color: var(--gray-600); line-height: 1.5; }
         .risk-advice-box li strong { color: var(--green-800); }
-        .risk-actions {
-            display: flex; gap: 10px;
-            flex-wrap: wrap; justify-content: center;
-        }
-        .risk-disclaimer {
-            margin-top: 12px;
-            font-size: 11px; color: var(--gray-400);
-        }
-
-        /* ===== PEP Countdown ===== */
+        .risk-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+        .risk-disclaimer { margin-top: 8px; font-size: 10px; color: var(--gray-400); line-height: 1.4; }/* ===== PEP Countdown ===== */
         .pep-countdown {
             background: linear-gradient(135deg, #1a1a2e, #2d2d4e);
             border-radius: var(--radius-lg);
@@ -1407,20 +1261,28 @@
                         <!-- Step indicator -->
                         <div class="risk-steps-bar">
                             <div class="risk-step-indicator active" data-si="0">
-                                <div class="num">1</div>
-                                <span class="label">行为类型</span>
+                                <div class="circle">1</div>
+                                <span class="label">行为</span>
                             </div>
                             <div class="risk-step-indicator" data-si="1">
-                                <div class="num">2</div>
-                                <span class="label">对方状况</span>
+                                <div class="circle">2</div>
+                                <span class="label">对方</span>
                             </div>
                             <div class="risk-step-indicator" data-si="2">
-                                <div class="num">3</div>
-                                <span class="label">防护措施</span>
+                                <div class="circle">3</div>
+                                <span class="label">防护</span>
                             </div>
                             <div class="risk-step-indicator" data-si="3">
-                                <div class="num">4</div>
-                                <span class="label">时间信息</span>
+                                <div class="circle">4</div>
+                                <span class="label">时间</span>
+                            </div>
+                            <div class="risk-step-indicator" data-si="4">
+                                <div class="circle">5</div>
+                                <span class="label">损伤</span>
+                            </div>
+                            <div class="risk-step-indicator" data-si="5">
+                                <div class="circle">6</div>
+                                <span class="label">检测</span>
                             </div>
                         </div>
                         <div class="risk-form-area">
@@ -1470,14 +1332,42 @@
                             <div class="risk-step" data-step="3">
                                 <div class="risk-step-title">距事情发生多久了？</div>
                                 <div class="risk-step-sub">这决定了检测时间和是否还能吃PEP</div>
-                                <button class="risk-option" onclick="selectRisk(this,'72小时以内（紧急！）')"><span class="tag tag-high">紧急</span> 72小时以内（还能吃PEP！）</button>
+                                <button class="risk-option" onclick="selectRisk(this,'72小时以内（还能吃PEP！）')"><span class="tag tag-high">紧急</span> 72小时以内</button>
                                 <button class="risk-option" onclick="selectRisk(this,'3-7天')">3-7天</button>
                                 <button class="risk-option" onclick="selectRisk(this,'1-4周')">1-4周</button>
                                 <button class="risk-option" onclick="selectRisk(this,'4周以上')">4周以上</button>
                                 <button class="risk-option" onclick="selectRisk(this,'3个月以上')">3个月以上</button>
                                 <div class="risk-nav">
-                                    <button class="risk-btn risk-btn-prev" onclick="prevStep()"><span style="font-size:16px;">←</span> 上一步</button>
-                                    <button class="risk-btn risk-btn-finish" disabled onclick="calculateRisk()">📊 查看评估结果</button>
+                                    <button class="risk-btn risk-btn-prev" onclick="prevStep()">← 上一步</button>
+                                    <button class="risk-btn risk-btn-next" disabled onclick="nextStep()">下一步 →</button>
+                                </div>
+                            </div>
+                            <!-- Step 5: Injury/STD -->
+                            <div class="risk-step" data-step="4">
+                                <div class="risk-step-title">是否有生殖器损伤或其他性病？</div>
+                                <div class="risk-step-sub">这些因素会增加HIV感染风险</div>
+                                <button class="risk-option" onclick="selectRisk(this,'有明显伤口或出血')"><span class="tag tag-high">高</span> 有明显伤口或出血</button>
+                                <button class="risk-option" onclick="selectRisk(this,'有溃疡/皮疹/炎症')"><span class="tag tag-mid">中</span> 有溃疡/皮疹/炎症</button>
+                                <button class="risk-option" onclick="selectRisk(this,'有其他性病（如梅毒/淋病）')"><span class="tag tag-mid">风险</span> 有其他性病（梅毒/淋病等）</button>
+                                <button class="risk-option" onclick="selectRisk(this,'以上都没有')"><span class="tag tag-low">无</span> 以上都没有</button>
+                                <button class="risk-option" onclick="selectRisk(this,'不确定')">不确定</button>
+                                <div class="risk-nav">
+                                    <button class="risk-btn risk-btn-prev" onclick="prevStep()">← 上一步</button>
+                                    <button class="risk-btn risk-btn-next" disabled onclick="nextStep()">下一步 →</button>
+                                </div>
+                            </div>
+                            <!-- Step 6: Testing -->
+                            <div class="risk-step" data-step="5">
+                                <div class="risk-step-title">是否做过HIV检测？</div>
+                                <div class="risk-step-sub">检测结果是最终依据</div>
+                                <button class="risk-option" onclick="selectRisk(this,'已检测·阴性（超过6周）')"><span class="tag tag-low">安全</span> 已检测·阴性（超过6周）</button>
+                                <button class="risk-option" onclick="selectRisk(this,'已检测·阴性（不足6周）')"><span class="tag tag-low">低</span> 已检测·阴性（不足6周）</button>
+                                <button class="risk-option" onclick="selectRisk(this,'已检测·结果为阳性')"><span class="tag tag-high">需要</span> 已检测·结果为阳性</button>
+                                <button class="risk-option" onclick="selectRisk(this,'还没检测')">还没检测</button>
+                                <button class="risk-option" onclick="selectRisk(this,'反复测了很多次都是阴性')"><span class="tag tag-low">安心</span> 反复测了很多次都是阴性</button>
+                                <div class="risk-nav">
+                                    <button class="risk-btn risk-btn-prev" onclick="prevStep()">← 上一步</button>
+                                    <button class="risk-btn risk-btn-finish" disabled onclick="calculateRisk()">📊 查看完整评估</button>
                                 </div>
                             </div>
                         </div>
@@ -1788,7 +1678,7 @@
         }
 
         function nextStep() {
-            if (currentStep < 3) {
+            if (currentStep < 5) {
                 document.querySelectorAll('.risk-step').forEach(el => el.classList.remove('active'));
                 currentStep++;
                 document.querySelectorAll('.risk-step')[currentStep].classList.add('active');
@@ -1823,58 +1713,53 @@
             const partner = riskAnswers[1] || '';
             const protection = riskAnswers[2] || '';
             const timeFrame = riskAnswers[3] || '';
+            const injury = riskAnswers[4] || '';
+            const testing = riskAnswers[5] || '';
 
-            // Simple risk algorithm based on medical data
+            // Risk scoring algorithm
             let score = 0;
-            let riskLevel = '';
-            let riskIcon = '';
-            let riskLabel = '';
-            let riskColor = '';
 
-            // Behavior scoring
+            // Behavior scoring (0-5)
             if (behavior.includes('无套肛交（被动方）') || behavior.includes('共用针具')) score += 5;
             else if (behavior.includes('无套肛交（主动方）')) score += 3;
             else if (behavior.includes('无套阴道交')) score += 3;
-            else if (behavior.includes('职业暴露')) score += 2;
             else if (behavior.includes('无套口交')) score += 1;
-            else if (behavior.includes('安全套有破损')) score += 2;
-            else if (behavior.includes('戴套')) score += 0.2;
             else score += 1;
 
-            // Partner scoring
+            // Partner scoring (0-5)
             if (partner.includes('确诊HIV阳性（且未治疗）')) score += 5;
-            else if (partner.includes('HIV阳性（正在治疗')) score += 0.1;
             else if (partner.includes('状态未知')) score += 2;
-            else if (partner.includes('低风险')) score += 0.5;
-            else score += 1;
+            else score += 0.5;
 
-            // Protection scoring
-            if (protection.includes('没有采取任何措施')) score += 0;
-            else if (protection.includes('PEP')) score -= 3;
+            // Protection scoring (-4 to 0)
+            if (protection.includes('PEP')) score -= 3;
             else if (protection.includes('安全套（全程正确使用）')) score -= 2;
             else if (protection.includes('PrEP')) score -= 4;
 
+            // Injury/STD scoring (0-3)
+            if (injury.includes('明显伤口') || injury.includes('其他性病')) score += 3;
+            else if (injury.includes('溃疡') || injury.includes('炎症')) score += 2;
+            else if (injury.includes('以上都没有')) score += 0;
+            else score += 1;
+
+            // Testing result (affects final)
+            let testConfirmed = false;
+            if (testing.includes('阴性（超过6周）') || testing.includes('反复测了')) { score = 0; testConfirmed = true; }
+            else if (testing.includes('阴性（不足6周）')) score -= 2;
+            else if (testing.includes('阳性')) score += 5;
+
             // Determine risk level
-            if (score >= 8) {
-                riskLevel = 'high';
-                riskIcon = '🔴';
-                riskLabel = '高风险';
-                riskColor = '#CC1838';
+            let riskLevel, riskIcon, riskLabel, riskColor, gaugePct;
+            if (testConfirmed) {
+                riskLevel = 'none'; riskIcon = '✅'; riskLabel = '已排除 · 无需担心'; riskColor = '#27ae60'; gaugePct = 0;
+            } else if (score >= 8) {
+                riskLevel = 'high'; riskIcon = '🔴'; riskLabel = '高风险'; riskColor = '#CC1838'; gaugePct = 90;
             } else if (score >= 5) {
-                riskLevel = 'medium';
-                riskIcon = '🟡';
-                riskLabel = '中等风险';
-                riskColor = '#e67e22';
+                riskLevel = 'medium'; riskIcon = '🟡'; riskLabel = '中等风险'; riskColor = '#e67e22'; gaugePct = 55;
             } else if (score >= 2) {
-                riskLevel = 'low';
-                riskIcon = '🟢';
-                riskLabel = '低风险';
-                riskColor = '#27ae60';
+                riskLevel = 'low'; riskIcon = '🟢'; riskLabel = '低风险'; riskColor = '#27ae60'; gaugePct = 25;
             } else {
-                riskLevel = 'minimal';
-                riskIcon = '✅';
-                riskLabel = '基本无风险';
-                riskColor = '#27ae60';
+                riskLevel = 'minimal'; riskIcon = '✅'; riskLabel = '基本无风险'; riskColor = '#27ae60'; gaugePct = 5;
             }
 
             // Build advice based on time frame
@@ -1904,15 +1789,17 @@
             }
 
             // Display result
-            const badgeColor = riskLevel === 'high' ? '#fde8ec;color:#cc1838' : riskLevel === 'medium' ? '#fef3e2;color:#e67e22' : '#e8f5e9;color:#27ae60';
+            const badgeColor = riskLevel === 'high' ? 'background:#fde8ec;color:#cc1838' : riskLevel === 'medium' ? 'background:#fef3e2;color:#e67e22' : 'background:#e8f5e9;color:#27ae60';
+            const badgeText = riskLevel === 'high' ? '建议就医评估' : riskLevel === 'medium' ? '建议关注检测' : riskLevel === 'none' ? '✅ 已排除' : '无需过度担心';
             document.getElementById('riskResult').style.display = 'block';
             document.getElementById('riskResult').innerHTML = `
                 <div class="risk-result-wrap">
                     <div class="risk-result-card">
                         <span class="risk-result-icon">${riskIcon}</span>
                         <div class="risk-result-label" style="color:${riskColor};">${riskLabel}</div>
-                        <div class="risk-result-desc">基于你提供的信息，综合评估结果如下</div>
-                        <div class="risk-result-badge" style="background:${badgeColor};">${riskLevel === 'high' ? '建议就医评估' : riskLevel === 'medium' ? '建议关注检测' : '无需过度担心'}</div>
+                        <div class="risk-result-desc">基于6项指标综合评估</div>
+                        <div class="risk-gauge"><div class="risk-gauge-fill" style="width:${gaugePct}%;background:${riskColor};"></div></div>
+                        <div class="risk-result-badge" style="${badgeColor};">${badgeText}</div>
                         ${pepAlert}
                         ${uEqualsU}
                         <div class="risk-advice-box">
@@ -1925,7 +1812,7 @@
                         </div>
                         <div class="risk-actions">
                             <button onclick="resetRiskCalc()" class="risk-btn risk-btn-prev">🔄 重新评估</button>
-                            <button onclick="switchPage('home');setTimeout(function(){quickAsk('我做了${encodeURIComponent(behavior)}，风险评估结果为${riskLabel}，能帮我详细分析一下吗？')},500)" class="risk-btn risk-btn-next" style="border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;">💬 让AI详细分析</button>
+                            <button onclick="switchPage('home');setTimeout(function(){quickAsk('我做了${encodeURIComponent(behavior)}，风险评估结果为${riskLabel}，能帮我详细分析一下吗？')},500)" class="risk-btn risk-btn-next" style="border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;">💬 让AI详细分析</button>
                         </div>
                         <div class="risk-disclaimer">⚠️ 本评估仅供参考，不能替代医生诊断。如有高风险暴露，请立即就医。</div>
                     </div>
