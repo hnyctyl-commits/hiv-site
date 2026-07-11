@@ -559,46 +559,200 @@
         .expert-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(204,24,56,0.3); }
 
         /* ===== Risk Calculator ===== */
-        .risk-form { max-width: 600px; margin: 0 auto; }
+        .risk-wrapper {
+            max-width: 640px; margin: -24px auto 0;
+            position: relative; z-index: 2;
+        }
+        .risk-card {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 36px 32px 28px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .risk-steps-bar {
+            display: flex; gap: 0;
+            margin-bottom: 32px;
+            background: var(--gray-100);
+            border-radius: var(--radius-md);
+            padding: 4px;
+            position: relative;
+        }
+        .risk-step-indicator {
+            flex: 1; text-align: center;
+            padding: 8px 4px;
+            border-radius: 8px;
+            font-size: 11px; font-weight: 500;
+            color: var(--gray-400);
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+            position: relative;
+        }
+        .risk-step-indicator .num {
+            width: 22px; height: 22px;
+            display: inline-flex; align-items: center; justify-content: center;
+            border-radius: 50%;
+            background: var(--gray-200);
+            color: var(--gray-500);
+            font-size: 11px; font-weight: 700;
+            margin-bottom: 4px;
+            transition: all 0.4s ease;
+        }
+        .risk-step-indicator .label {
+            display: block;
+            font-size: 11px; line-height: 1.2;
+        }
+        .risk-step-indicator.active {
+            background: var(--white);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            color: var(--green-800);
+        }
+        .risk-step-indicator.active .num {
+            background: linear-gradient(135deg, var(--green-600), var(--green-500));
+            color: white;
+        }
+        .risk-step-indicator.done {
+            color: var(--green-600);
+        }
+        .risk-step-indicator.done .num {
+            background: var(--green-500);
+            color: white;
+        }
+        .risk-form-area {
+            min-height: 340px;
+            position: relative;
+        }
         .risk-step { display: none; }
-        .risk-step.active { display: block; animation: fadeUp 0.3s ease; }
-        .risk-label { font-size: 15px; font-weight: 600; color: var(--green-900); margin-bottom: 12px; display: block; }
+        .risk-step.active { display: block; }
+        .risk-step-title {
+            font-size: 17px; font-weight: 700;
+            color: var(--green-900);
+            margin-bottom: 4px;
+        }
+        .risk-step-sub {
+            font-size: 13px; color: var(--gray-400);
+            margin-bottom: 20px;
+        }
         .risk-option {
             display: block; width: 100%; padding: 14px 18px; margin-bottom: 8px;
-            background: var(--white); border: 2px solid var(--gray-200);
+            background: var(--white);
+            border: 2px solid var(--gray-200);
             border-radius: var(--radius-md); cursor: pointer;
-            font-size: 14px; color: var(--gray-600); text-align: left;
-            transition: var(--transition); font-family: inherit;
+            font-size: 14px; color: var(--gray-700); text-align: left;
+            transition: all 0.2s ease; font-family: inherit;
+            position: relative;
         }
-        .risk-option:hover { border-color: var(--green-400); background: var(--green-50); }
-        .risk-option.selected { border-color: var(--green-600); background: var(--green-50); color: var(--green-800); font-weight: 600; }
-        .risk-option .emoji { margin-right: 8px; }
-        .risk-nav { display: flex; justify-content: space-between; margin-top: 24px; }
+        .risk-option:hover {
+            border-color: var(--green-300);
+            background: var(--green-50);
+            transform: translateX(4px);
+        }
+        .risk-option.selected {
+            border-color: var(--green-600);
+            background: linear-gradient(135deg, var(--green-50), #e8f8f0);
+            color: var(--green-800); font-weight: 600;
+            box-shadow: 0 0 0 3px rgba(45,143,111,0.1);
+        }
+        .risk-option.selected::after {
+            content: '✓';
+            position: absolute; right: 16px; top: 50%;
+            transform: translateY(-50%);
+            color: var(--green-600);
+            font-size: 18px; font-weight: 800;
+        }
+        .risk-option .tag {
+            display: inline-block;
+            font-size: 10px; padding: 1px 8px;
+            border-radius: 10px; font-weight: 600;
+            margin-left: 6px;
+        }
+        .tag-high { background: #fde8ec; color: #cc1838; }
+        .tag-mid { background: #fef3e2; color: #e67e22; }
+        .tag-low { background: #e8f5e9; color: #27ae60; }
+        .risk-nav {
+            display: flex; justify-content: space-between;
+            margin-top: 24px; padding-top: 20px;
+            border-top: 1px solid var(--gray-100);
+        }
         .risk-btn {
-            padding: 12px 32px; border: none; border-radius: var(--radius-sm);
-            font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit;
-            transition: var(--transition);
+            padding: 12px 28px; border: none; border-radius: var(--radius-sm);
+            font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
+            transition: all 0.2s ease;
         }
-        .risk-btn-prev { background: var(--gray-100); color: var(--gray-600); }
+        .risk-btn-prev {
+            background: var(--gray-100); color: var(--gray-600);
+        }
         .risk-btn-prev:hover { background: var(--gray-200); }
-        .risk-btn-next { background: linear-gradient(135deg, var(--green-600), var(--green-500)); color: white; }
-        .risk-btn-next:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(45,143,111,0.3); }
-        .risk-btn-next:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        .risk-progress { display: flex; gap: 8px; margin-bottom: 28px; justify-content: center; }
-        .risk-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gray-200); transition: var(--transition); }
-        .risk-dot.active { background: var(--green-500); width: 28px; border-radius: 5px; }
-        .risk-dot.done { background: var(--green-500); }
-        .risk-result-card {
-            background: var(--white); border-radius: var(--radius-xl);
-            padding: 32px; box-shadow: var(--shadow-lg);
-            text-align: center; max-width: 500px; margin: 0 auto;
+        .risk-btn-next {
+            background: linear-gradient(135deg, var(--green-600), var(--green-500));
+            color: white; box-shadow: 0 4px 12px rgba(45,143,111,0.25);
         }
-        .risk-level-icon { font-size: 64px; margin-bottom: 12px; }
-        .risk-level-label { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-        .risk-level-desc { font-size: 14px; color: var(--gray-600); line-height: 1.6; margin-bottom: 20px; }
-        .risk-advice { background: var(--green-50); border-radius: var(--radius-md); padding: 16px 20px; text-align: left; margin-bottom: 16px; }
-        .risk-advice li { margin: 8px 0; font-size: 13px; color: var(--gray-600); line-height: 1.5; }
-        .risk-advice li strong { color: var(--green-800); }
+        .risk-btn-next:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(45,143,111,0.35); }
+        .risk-btn-next:disabled {
+            opacity: 0.4; cursor: not-allowed;
+            transform: none; box-shadow: none;
+        }
+        .risk-btn-finish {
+            background: linear-gradient(135deg, var(--green-700), var(--green-500));
+            color: white; box-shadow: 0 4px 16px rgba(45,143,111,0.3);
+        }
+        .risk-btn-finish:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(45,143,111,0.4); }
+
+        /* Result */
+        .risk-result-wrap {
+            animation: fadeUp 0.5s ease;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .risk-result-card {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 36px 32px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(0,0,0,0.04);
+            max-width: 600px; margin: -24px auto 0;
+            position: relative; z-index: 2;
+            text-align: center;
+        }
+        .risk-result-icon { font-size: 72px; margin-bottom: 8px; display: block; }
+        .risk-result-label { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
+        .risk-result-desc { font-size: 14px; color: var(--gray-500); margin-bottom: 20px; }
+        .risk-result-badge {
+            display: inline-block;
+            padding: 6px 20px; border-radius: 20px;
+            font-size: 13px; font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .risk-alert-box {
+            border-radius: var(--radius-md);
+            padding: 16px 18px; margin-bottom: 16px;
+            text-align: center; line-height: 1.5;
+        }
+        .risk-advice-box {
+            background: var(--green-50);
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+            text-align: left; margin-bottom: 16px;
+        }
+        .risk-advice-box h4 {
+            font-size: 14px; color: var(--green-900);
+            margin-bottom: 10px;
+        }
+        .risk-advice-box li {
+            margin: 8px 0; font-size: 13px;
+            color: var(--gray-600); line-height: 1.5;
+            padding-left: 4px;
+        }
+        .risk-advice-box li strong { color: var(--green-800); }
+        .risk-actions {
+            display: flex; gap: 10px;
+            flex-wrap: wrap; justify-content: center;
+        }
+        .risk-disclaimer {
+            margin-top: 12px;
+            font-size: 11px; color: var(--gray-400);
+        }
 
         /* ===== PEP Countdown ===== */
         .pep-countdown {
@@ -1244,81 +1398,94 @@
 
     <!-- ===== PAGE: RISK CALC ===== -->
     <div id="page-riskcalc" class="page-section">
-        <div class="section container" style="margin-top:64px;">
-            <div class="section-hero" style="background:linear-gradient(135deg,var(--green-800),var(--green-600));">
+        <div class="section container" style="margin-top:64px;padding-bottom:40px;">
+            <div class="section-hero" style="background:linear-gradient(135deg,var(--green-800),var(--green-600));text-align:center;">
                 <h1>📊 HIV 风险自测</h1>
-                <p>4步评估你的行为风险，获得专业建议</p>
+                <p>4步快速评估你的行为风险，获得专业建议</p>
             </div>
-
-            <div id="riskForm" class="risk-form">
-                <!-- Progress dots -->
-                <div class="risk-progress">
-                    <span class="risk-dot active"></span>
-                    <span class="risk-dot"></span>
-                    <span class="risk-dot"></span>
-                    <span class="risk-dot"></span>
-                </div>
-
-                <!-- Step 1: Behavior -->
-                <div class="risk-step active" data-step="0">
-                    <label class="risk-label">① 你的行为类型是？</label>
-                    <button class="risk-option" onclick="selectRisk(this,'无套肛交（被动方）')">🔴 无套肛交（被动方）</button>
-                    <button class="risk-option" onclick="selectRisk(this,'无套肛交（主动方）')">🟠 无套肛交（主动方）</button>
-                    <button class="risk-option" onclick="selectRisk(this,'无套阴道交')">🟡 无套阴道交</button>
-                    <button class="risk-option" onclick="selectRisk(this,'无套口交')">🟢 无套口交</button>
-                    <button class="risk-option" onclick="selectRisk(this,'共用针具/注射器')">🔴 共用针具/注射器</button>
-                    <button class="risk-option" onclick="selectRisk(this,'职业暴露（针刺伤等）')">🟡 职业暴露（针刺伤等）</button>
-                    <button class="risk-option" onclick="selectRisk(this,'戴套性行为（全程使用）')">🟢 戴套性行为（全程使用）</button>
-                    <button class="risk-option" onclick="selectRisk(this,'其他/不确定')">⚪ 其他/不确定</button>
-                    <div class="risk-nav">
-                        <span></span>
-                        <button class="risk-btn risk-btn-next" disabled onclick="nextStep()">下一步 →</button>
-                    </div>
-                </div>
-
-                <!-- Step 2: Partner status -->
-                <div class="risk-step" data-step="1">
-                    <label class="risk-label">② 对方是否已知HIV阳性？</label>
-                    <button class="risk-option" onclick="selectRisk(this,'确诊HIV阳性（且未治疗）')">🔴 确诊HIV阳性（且未治疗）</button>
-                    <button class="risk-option" onclick="selectRisk(this,'HIV阳性（正在治疗/病毒载量检测不到）')">🟢 HIV阳性（治疗中/病毒检测不到）</button>
-                    <button class="risk-option" onclick="selectRisk(this,'对方状态未知')">🟡 对方状态未知</button>
-                    <button class="risk-option" onclick="selectRisk(this,'对方属于低风险人群')">🟢 对方属于低风险人群</button>
-                    <button class="risk-option" onclick="selectRisk(this,'不确定/不适用')">⚪ 不确定/不适用</button>
-                    <div class="risk-nav">
-                        <button class="risk-btn risk-btn-prev" onclick="prevStep()">← 上一步</button>
-                        <button class="risk-btn risk-btn-next" disabled onclick="nextStep()">下一步 →</button>
-                    </div>
-                </div>
-
-                <!-- Step 3: Protection -->
-                <div class="risk-step" data-step="2">
-                    <label class="risk-label">③ 采取了哪些防护措施？</label>
-                    <button class="risk-option" onclick="selectRisk(this,'没有采取任何措施')">🔴 没有采取任何措施</button>
-                    <button class="risk-option" onclick="selectRisk(this,'服用了PEP阻断药（72小时内）')">🟢 服用了PEP阻断药（72小时内）</button>
-                    <button class="risk-option" onclick="selectRisk(this,'使用了安全套（全程正确使用）')">🟢 使用了安全套（全程正确使用）</button>
-                    <button class="risk-option" onclick="selectRisk(this,'安全套有破损/滑脱')">🟡 安全套有破损/滑脱</button>
-                    <button class="risk-option" onclick="selectRisk(this,'已服用PrEP（暴露前预防）')">🟢 已服用PrEP（暴露前预防）</button>
-                    <div class="risk-nav">
-                        <button class="risk-btn risk-btn-prev" onclick="prevStep()">← 上一步</button>
-                        <button class="risk-btn risk-btn-next" disabled onclick="nextStep()">下一步 →</button>
-                    </div>
-                </div>
-
-                <!-- Step 4: Time & details -->
-                <div class="risk-step" data-step="3">
-                    <label class="risk-label">④ 距事情发生多久了？</label>
-                    <button class="risk-option" onclick="selectRisk(this,'72小时以内（紧急！）')">🔴 72小时以内（紧急！）</button>
-                    <button class="risk-option" onclick="selectRisk(this,'3-7天')">🟡 3-7天</button>
-                    <button class="risk-option" onclick="selectRisk(this,'1-4周')">🟡 1-4周</button>
-                    <button class="risk-option" onclick="selectRisk(this,'4周以上')">🟢 4周以上</button>
-                    <button class="risk-option" onclick="selectRisk(this,'3个月以上')">🟢 3个月以上</button>
-                    <div class="risk-nav">
-                        <button class="risk-btn risk-btn-prev" onclick="prevStep()">← 上一步</button>
-                        <button class="risk-btn risk-btn-next" disabled onclick="calculateRisk()">📊 查看评估结果</button>
+            <div id="riskForm">
+                <div class="risk-wrapper">
+                    <div class="risk-card">
+                        <!-- Step indicator -->
+                        <div class="risk-steps-bar">
+                            <div class="risk-step-indicator active" data-si="0">
+                                <div class="num">1</div>
+                                <span class="label">行为类型</span>
+                            </div>
+                            <div class="risk-step-indicator" data-si="1">
+                                <div class="num">2</div>
+                                <span class="label">对方状况</span>
+                            </div>
+                            <div class="risk-step-indicator" data-si="2">
+                                <div class="num">3</div>
+                                <span class="label">防护措施</span>
+                            </div>
+                            <div class="risk-step-indicator" data-si="3">
+                                <div class="num">4</div>
+                                <span class="label">时间信息</span>
+                            </div>
+                        </div>
+                        <div class="risk-form-area">
+                            <!-- Step 1: Behavior -->
+                            <div class="risk-step active" data-step="0">
+                                <div class="risk-step-title">你的行为类型是？</div>
+                                <div class="risk-step-sub">选择最接近你实际情况的一项</div>
+                                <button class="risk-option" onclick="selectRisk(this,'无套肛交（被动方）')"><span class="tag tag-high">高</span> 无套肛交（被动方）</button>
+                                <button class="risk-option" onclick="selectRisk(this,'无套肛交（主动方）')"><span class="tag tag-mid">中</span> 无套肛交（主动方）</button>
+                                <button class="risk-option" onclick="selectRisk(this,'无套阴道交')"><span class="tag tag-mid">中</span> 无套阴道交</button>
+                                <button class="risk-option" onclick="selectRisk(this,'无套口交')"><span class="tag tag-low">低</span> 无套口交</button>
+                                <button class="risk-option" onclick="selectRisk(this,'共用针具/注射器')"><span class="tag tag-high">高</span> 共用针具/注射器</button>
+                                <button class="risk-option" onclick="selectRisk(this,'其他/不确定')">其他/不确定</button>
+                                <div class="risk-nav">
+                                    <span></span>
+                                    <button class="risk-btn risk-btn-next" disabled onclick="nextStep()">下一步 <span style="font-size:16px;">→</span></button>
+                                </div>
+                            </div>
+                            <!-- Step 2 -->
+                            <div class="risk-step" data-step="1">
+                                <div class="risk-step-title">对方是否已知HIV阳性？</div>
+                                <div class="risk-step-sub">如果不知道对方情况，选"对方状态未知"</div>
+                                <button class="risk-option" onclick="selectRisk(this,'确诊HIV阳性（且未治疗）')"><span class="tag tag-high">高</span> 确诊HIV阳性（且未治疗）</button>
+                                <button class="risk-option" onclick="selectRisk(this,'HIV阳性（正在治疗/病毒载量检测不到）')"><span class="tag tag-low">安全</span> HIV阳性（治疗中/病毒检测不到）</button>
+                                <button class="risk-option" onclick="selectRisk(this,'对方状态未知')">对方状态未知</button>
+                                <button class="risk-option" onclick="selectRisk(this,'不确定/不适用')">不确定/不适用</button>
+                                <div class="risk-nav">
+                                    <button class="risk-btn risk-btn-prev" onclick="prevStep()"><span style="font-size:16px;">←</span> 上一步</button>
+                                    <button class="risk-btn risk-btn-next" disabled onclick="nextStep()">下一步 <span style="font-size:16px;">→</span></button>
+                                </div>
+                            </div>
+                            <!-- Step 3 -->
+                            <div class="risk-step" data-step="2">
+                                <div class="risk-step-title">采取了哪些防护措施？</div>
+                                <div class="risk-step-sub">可选最接近的一项</div>
+                                <button class="risk-option" onclick="selectRisk(this,'没有采取任何措施')">没有采取任何措施</button>
+                                <button class="risk-option" onclick="selectRisk(this,'服用了PEP阻断药（72小时内）')"><span class="tag tag-low">有效</span> 服用了PEP阻断药（72小时内）</button>
+                                <button class="risk-option" onclick="selectRisk(this,'使用了安全套（全程正确使用）')"><span class="tag tag-low">有效</span> 使用了安全套（全程正确使用）</button>
+                                <button class="risk-option" onclick="selectRisk(this,'安全套有破损/滑脱')"><span class="tag tag-mid">风险</span> 安全套有破损/滑脱</button>
+                                <button class="risk-option" onclick="selectRisk(this,'已服用PrEP（暴露前预防）')"><span class="tag tag-low">保护</span> 已服用PrEP（暴露前预防）</button>
+                                <div class="risk-nav">
+                                    <button class="risk-btn risk-btn-prev" onclick="prevStep()"><span style="font-size:16px;">←</span> 上一步</button>
+                                    <button class="risk-btn risk-btn-next" disabled onclick="nextStep()">下一步 <span style="font-size:16px;">→</span></button>
+                                </div>
+                            </div>
+                            <!-- Step 4 -->
+                            <div class="risk-step" data-step="3">
+                                <div class="risk-step-title">距事情发生多久了？</div>
+                                <div class="risk-step-sub">这决定了检测时间和是否还能吃PEP</div>
+                                <button class="risk-option" onclick="selectRisk(this,'72小时以内（紧急！）')"><span class="tag tag-high">紧急</span> 72小时以内（还能吃PEP！）</button>
+                                <button class="risk-option" onclick="selectRisk(this,'3-7天')">3-7天</button>
+                                <button class="risk-option" onclick="selectRisk(this,'1-4周')">1-4周</button>
+                                <button class="risk-option" onclick="selectRisk(this,'4周以上')">4周以上</button>
+                                <button class="risk-option" onclick="selectRisk(this,'3个月以上')">3个月以上</button>
+                                <div class="risk-nav">
+                                    <button class="risk-btn risk-btn-prev" onclick="prevStep()"><span style="font-size:16px;">←</span> 上一步</button>
+                                    <button class="risk-btn risk-btn-finish" disabled onclick="calculateRisk()">📊 查看评估结果</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
             <!-- Result area -->
             <div id="riskResult" style="display:none;"></div>
         </div>
@@ -1627,9 +1794,8 @@
                 document.querySelectorAll('.risk-step').forEach(el => el.classList.remove('active'));
                 currentStep++;
                 document.querySelectorAll('.risk-step')[currentStep].classList.add('active');
-                updateProgress();
-                // Auto-enable if already answered
-                const btn = document.querySelectorAll('.risk-step')[currentStep].querySelector('.risk-btn-next');
+                updateStepIndicators();
+                const btn = document.querySelectorAll('.risk-step')[currentStep].querySelector('.risk-btn-next, .risk-btn-finish');
                 if (btn && riskAnswers[currentStep]) btn.disabled = false;
             }
         }
@@ -1639,15 +1805,15 @@
                 document.querySelectorAll('.risk-step').forEach(el => el.classList.remove('active'));
                 currentStep--;
                 document.querySelectorAll('.risk-step')[currentStep].classList.add('active');
-                updateProgress();
+                updateStepIndicators();
             }
         }
 
-        function updateProgress() {
-            document.querySelectorAll('.risk-dot').forEach((dot, i) => {
-                dot.classList.remove('active', 'done');
-                if (i < currentStep) dot.classList.add('done');
-                else if (i === currentStep) dot.classList.add('active');
+        function updateStepIndicators() {
+            document.querySelectorAll('.risk-step-indicator').forEach((el, i) => {
+                el.classList.remove('active', 'done');
+                if (i < currentStep) el.classList.add('done');
+                else if (i === currentStep) el.classList.add('active');
             });
         }
 
@@ -1740,27 +1906,31 @@
             }
 
             // Display result
+            const badgeColor = riskLevel === 'high' ? '#fde8ec;color:#cc1838' : riskLevel === 'medium' ? '#fef3e2;color:#e67e22' : '#e8f5e9;color:#27ae60';
             document.getElementById('riskResult').style.display = 'block';
             document.getElementById('riskResult').innerHTML = `
-                <div class="risk-result-card">
-                    <div class="risk-level-icon">${riskIcon}</div>
-                    <div class="risk-level-label" style="color:${riskColor};">${riskLabel}</div>
-                    <div class="risk-level-desc">基于你的回答，综合评估结果如上。</div>
-                    ${pepAlert}
-                    ${uEqualsU}
-                    <div class="risk-advice">
-                        <strong style="color:var(--green-900);font-size:14px;">📋 建议</strong>
-                        <ul>
-                            ${timeAdvice}
-                            <li><strong>🧠 心理方面：</strong> 恐艾焦虑是真实的，如果检测阴性后仍然担心，可以使用AI心理疏导缓解焦虑。</li>
-                            <li><strong>🛡️ 预防未来：</strong> 全程正确使用安全套、考虑PrEP（暴露前预防）、定期检测。</li>
-                        </ul>
+                <div class="risk-result-wrap">
+                    <div class="risk-result-card">
+                        <span class="risk-result-icon">${riskIcon}</span>
+                        <div class="risk-result-label" style="color:${riskColor};">${riskLabel}</div>
+                        <div class="risk-result-desc">基于你提供的信息，综合评估结果如下</div>
+                        <div class="risk-result-badge" style="background:${badgeColor};">${riskLevel === 'high' ? '建议就医评估' : riskLevel === 'medium' ? '建议关注检测' : '无需过度担心'}</div>
+                        ${pepAlert}
+                        ${uEqualsU}
+                        <div class="risk-advice-box">
+                            <h4>📋 建议</h4>
+                            <ul>
+                                ${timeAdvice}
+                                <li><strong>🧠 心理方面：</strong> 恐艾焦虑是真实的，如果检测阴性后仍然担心，可以使用AI心理疏导缓解焦虑。</li>
+                                <li><strong>🛡️ 预防未来：</strong> 全程正确使用安全套、考虑PrEP（暴露前预防）、定期检测。</li>
+                            </ul>
+                        </div>
+                        <div class="risk-actions">
+                            <button onclick="resetRiskCalc()" class="risk-btn risk-btn-prev">🔄 重新评估</button>
+                            <button onclick="switchPage('home');setTimeout(function(){quickAsk('我做了${encodeURIComponent(behavior)}，风险评估结果为${riskLabel}，能帮我详细分析一下吗？')},500)" class="risk-btn risk-btn-next" style="border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;">💬 让AI详细分析</button>
+                        </div>
+                        <div class="risk-disclaimer">⚠️ 本评估仅供参考，不能替代医生诊断。如有高风险暴露，请立即就医。</div>
                     </div>
-                    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
-                        <button onclick="resetRiskCalc()" class="risk-btn risk-btn-prev">🔄 重新评估</button>
-                        <button onclick="switchPage('home');quickAsk('${encodeURIComponent('我做了' + behavior + '，风险评估结果为' + riskLabel + '，能帮我详细分析一下吗？')}')" class="risk-btn risk-btn-next" style="text-decoration:none;">💬 让AI详细分析</button>
-                    </div>
-                    <div style="margin-top:12px;font-size:11px;color:var(--gray-400);">⚠️ 本评估仅供参考，不能替代医生诊断。如有高风险暴露，请立即就医。</div>
                 </div>
             `;
         }
@@ -1772,12 +1942,12 @@
                 el.classList.remove('active');
                 if (i === 0) el.classList.add('active');
                 el.querySelectorAll('.risk-option').forEach(b => b.classList.remove('selected'));
-                const nb = el.querySelector('.risk-btn-next');
+                const nb = el.querySelector('.risk-btn-next') || el.querySelector('.risk-btn-finish');
                 if (nb) nb.disabled = true;
             });
+            updateStepIndicators();
             document.getElementById('riskForm').style.display = 'block';
             document.getElementById('riskResult').style.display = 'none';
-            updateProgress();
         }
 
         // ====== Payment Modal ======
