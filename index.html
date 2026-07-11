@@ -490,14 +490,27 @@
             box-shadow: var(--shadow-md);
             transform: translateY(-2px);
         }
+        .kb-card .kb-icon {
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 12px;
+            font-size: 22px;
+        }
         .kb-card h4 {
             color: var(--green-900);
             font-size: 15px;
-            margin-bottom: 10px;
-            display: flex; align-items: center; gap: 8px;
+            margin-bottom: 8px;
         }
         .kb-card p { color: var(--gray-600); font-size: 13px; line-height: 1.7; }
         .kb-card strong { color: var(--green-700); }
+        .kb-link {
+            display: inline-block; margin-top: 10px;
+            font-size: 12px; font-weight: 600;
+            color: var(--green-600); text-decoration: none;
+            transition: var(--transition);
+        }
+        .kb-link:hover { color: var(--green-700); }
 
         /* ===== Shop Grid ===== */
         .shop-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
@@ -511,7 +524,12 @@
             border: 1px solid var(--gray-200);
             text-align: center;
             transition: var(--transition);
+            position: relative;
         }
+        .shop-card:nth-child(1) { border-top: 3px solid var(--green-500); }
+        .shop-card:nth-child(2) { border-top: 3px solid var(--red); }
+        .shop-card:nth-child(3) { border-top: 3px solid #e67e22; }
+        .shop-card:nth-child(4) { border-top: 3px solid #3498db; }
         .shop-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
         .shop-card .emoji { font-size: 24px; margin-bottom: 4px; display: block; }
         .shop-card h4 { font-size: 13px; color: var(--green-900); margin-bottom: 2px; line-height: 1.3; }
@@ -736,9 +754,10 @@
 
         /* ===== Section hero (for inner pages) ===== */
         .section-hero {
+            margin-top: 64px;
             background: linear-gradient(135deg, var(--green-800), var(--green-600));
             border-radius: var(--radius-xl);
-            padding: 48px;
+            padding: 40px;
             color: var(--white);
             margin-bottom: 32px;
         }
@@ -1018,37 +1037,50 @@
                 <p>基于最新医学指南的权威科普，多病联防公益指导</p>
             </div>
             <div class="kb-grid">
-                <div class="kb-card">
-                    <h4>🕐 HIV 窗口期</h4>
-                    <p>第四代检测（医院/疾控）：2-4周可检出，<strong>6周基本排除</strong>。<br>快速试纸（自检）：4-6周可检出，<strong>12周完全排除</strong>。<br><br>过了窗口期阴性即可完全排除感染。</p>
+                <div class="kb-card" style="border-top:4px solid #52B788;">
+                    <div class="kb-icon" style="background:#e8f5e9;"><span>🕐</span></div>
+                    <h4>HIV 窗口期</h4>
+                    <p>第四代检测 <strong>6周可排除</strong>，自测试纸12周最终排除。窗口期后阴性即可完全放心。</p>
+                    <a href="blog/hiv-window-period-guide.html" class="kb-link">了解详情 →</a>
                 </div>
-                <div class="kb-card">
-                    <h4>💊 PEP 暴露后预防</h4>
-                    <p><strong>黄金72小时，越早越好！</strong><br>• ⏰ 最佳时间：2小时内<br>• 💊 疗程：28天，不可中断<br>• 🏥 获取：当地疾控或传染病医院<br>• ✅ 成功率 >99%</p>
+                <div class="kb-card" style="border-top:4px solid #cc1838;">
+                    <div class="kb-icon" style="background:#fde8ec;"><span>💊</span></div>
+                    <h4>PEP 暴露后预防</h4>
+                    <p><strong>黄金72小时</strong>，越早越好。成功率>99%。需服28天，不可中断。当地疾控或传染病医院开具。</p>
+                    <a href="blog/pep-guide.html" class="kb-link">了解详情 →</a>
                 </div>
-                <div class="kb-card">
-                    <h4>😰 恐艾症</h4>
-                    <p>一种真实的焦虑障碍。典型表现：反复检测仍不放心、不停搜索症状、身体不适就联想到HIV。<br><br><strong>这不是"矫情"，是需要专业疏导的真实问题。</strong></p>
+                <div class="kb-card" style="border-top:4px solid #e67e22;">
+                    <div class="kb-icon" style="background:#fef3e2;"><span>😰</span></div>
+                    <h4>恐艾症疏导</h4>
+                    <p>反复检测仍不放心？不停搜索症状？这是<strong>真实的焦虑障碍</strong>，不是矫情。AI心理疏导24小时在线。</p>
+                    <a href="blog/aids-phobia-guide.html" class="kb-link">了解详情 →</a>
                 </div>
-                <div class="kb-card">
-                    <h4>🩸 检测方式对比</h4>
-                    <p>• 自检试纸：15分钟出结果，准确率99%+<br>• 疾控中心：免费、权威、完全保密<br>• 医院：可选实名或匿名<br><br>自检阳性 → 去疾控做确证实验。</p>
+                <div class="kb-card" style="border-top:4px solid #3498db;">
+                    <div class="kb-icon" style="background:#e8f4fd;"><span>🩸</span></div>
+                    <h4>检测方式对比</h4>
+                    <p>自检试纸·疾控·医院·核酸检测。不同方式有不同窗口期和费用，<strong>选择适合自己的最重要</strong>。</p>
+                    <a href="blog/hiv-test-methods-compare.html" class="kb-link">了解详情 →</a>
                 </div>
-                <div class="kb-card">
-                    <h4>🤝 传播途径</h4>
-                    <p>HIV 传播需同时满足：足量病毒 + 进入途径 + 无防护。<br><br>日常接触、共餐、蚊虫叮咬、拥抱 <strong>不传播</strong>。</p>
+                <div class="kb-card" style="border-top:4px solid #9b59b6;">
+                    <div class="kb-icon" style="background:#f0e6f6;"><span>🤝</span></div>
+                    <h4>传播途径</h4>
+                    <p>HIV需满足：足量病毒+进入途径。<strong>日常接触、共餐、拥抱不传播</strong>。U=U：检测不到=不传染。</p>
                 </div>
-                <div class="kb-card">
-                    <h4>📞 求助渠道</h4>
-                    <p>• 心理热线：<strong>400-161-9995</strong><br>• 卫生热线：12320<br>• 当地疾控中心<br>• 红丝带热线：010-63296171</p>
+                <div class="kb-card" style="border-top:4px solid #1abc9c;">
+                    <div class="kb-icon" style="background:#e6f9f0;"><span>📞</span></div>
+                    <h4>求助渠道</h4>
+                    <p>心理热线：<strong>400-161-9995</strong><br>卫生热线：12320<br>当地疾控中心<br>红丝带热线：010-63296171</p>
                 </div>
-                <div class="kb-card">
-                    <h4>🦠 梅毒</h4>
-                    <p>与HIV常合并感染，建议同时检测。<br>• 一期：硬下疳（无痛溃疡）<br>• 二期：全身皮疹<br>• 治疗：青霉素可治愈</p>
+                <div class="kb-card" style="border-top:4px solid #e74c3c;">
+                    <div class="kb-icon" style="background:#fde8ec;"><span>🦠</span></div>
+                    <h4>梅毒</h4>
+                    <p>与HIV常合并感染。<strong>青霉素可治愈</strong>。一期硬下疳、二期全身皮疹。建议与HIV同时检测。</p>
+                    <a href="blog/syphilis-guide.html" class="kb-link">了解详情 →</a>
                 </div>
-                <div class="kb-card">
-                    <h4>🦠 丙肝/乙肝</h4>
-                    <p>• 丙肝可通过DAAs药物治愈<br>• 乙肝有疫苗可预防<br>• 建议高危行为后做四联检测</p>
+                <div class="kb-card" style="border-top:4px solid #f39c12;">
+                    <div class="kb-icon" style="background:#fef9e6;"><span>🦠</span></div>
+                    <h4>丙肝/乙肝</h4>
+                    <p>丙肝可通过药物治愈，乙肝有疫苗预防。<strong>建议高危行为后做四联检测</strong>（HIV+梅毒+丙肝+乙肝）。</p>
                 </div>
             </div>
         </div>
@@ -1197,7 +1229,7 @@
     <!-- ===== PAGE: FEEDBACK ===== -->
     <div id="page-feedback" class="page-section">
         <div class="section container">
-            <div class="section-hero" style="background:linear-gradient(135deg,var(--green-800),var(--green-600));margin-top:64px;">
+            <div class="section-hero" style="background:linear-gradient(135deg,var(--green-800),var(--green-600));text-align:center;">
                 <h1>💬 意见反馈</h1>
                 <p>你的建议能帮助我们做得更好</p>
             </div>
@@ -1250,7 +1282,7 @@
 
     <!-- ===== PAGE: RISK CALC ===== -->
     <div id="page-riskcalc" class="page-section">
-        <div class="section container" style="margin-top:64px;padding-bottom:40px;">
+        <div class="section container" style="padding-bottom:40px;">
             <div class="section-hero" style="background:linear-gradient(135deg,var(--green-800),var(--green-600));text-align:center;">
                 <h1>📊 HIV 风险自测</h1>
                 <p>4步快速评估你的行为风险，获得专业建议</p>
