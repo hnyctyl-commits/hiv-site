@@ -558,6 +558,48 @@
         }
         .expert-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(204,24,56,0.3); }
 
+        /* ===== Risk Calculator ===== */
+        .risk-form { max-width: 600px; margin: 0 auto; }
+        .risk-step { display: none; }
+        .risk-step.active { display: block; animation: fadeUp 0.3s ease; }
+        .risk-label { font-size: 15px; font-weight: 600; color: var(--green-900); margin-bottom: 12px; display: block; }
+        .risk-option {
+            display: block; width: 100%; padding: 14px 18px; margin-bottom: 8px;
+            background: var(--white); border: 2px solid var(--gray-200);
+            border-radius: var(--radius-md); cursor: pointer;
+            font-size: 14px; color: var(--gray-600); text-align: left;
+            transition: var(--transition); font-family: inherit;
+        }
+        .risk-option:hover { border-color: var(--green-400); background: var(--green-50); }
+        .risk-option.selected { border-color: var(--green-600); background: var(--green-50); color: var(--green-800); font-weight: 600; }
+        .risk-option .emoji { margin-right: 8px; }
+        .risk-nav { display: flex; justify-content: space-between; margin-top: 24px; }
+        .risk-btn {
+            padding: 12px 32px; border: none; border-radius: var(--radius-sm);
+            font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit;
+            transition: var(--transition);
+        }
+        .risk-btn-prev { background: var(--gray-100); color: var(--gray-600); }
+        .risk-btn-prev:hover { background: var(--gray-200); }
+        .risk-btn-next { background: linear-gradient(135deg, var(--green-600), var(--green-500)); color: white; }
+        .risk-btn-next:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(45,143,111,0.3); }
+        .risk-btn-next:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .risk-progress { display: flex; gap: 8px; margin-bottom: 28px; justify-content: center; }
+        .risk-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gray-200); transition: var(--transition); }
+        .risk-dot.active { background: var(--green-500); width: 28px; border-radius: 5px; }
+        .risk-dot.done { background: var(--green-500); }
+        .risk-result-card {
+            background: var(--white); border-radius: var(--radius-xl);
+            padding: 32px; box-shadow: var(--shadow-lg);
+            text-align: center; max-width: 500px; margin: 0 auto;
+        }
+        .risk-level-icon { font-size: 64px; margin-bottom: 12px; }
+        .risk-level-label { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+        .risk-level-desc { font-size: 14px; color: var(--gray-600); line-height: 1.6; margin-bottom: 20px; }
+        .risk-advice { background: var(--green-50); border-radius: var(--radius-md); padding: 16px 20px; text-align: left; margin-bottom: 16px; }
+        .risk-advice li { margin: 8px 0; font-size: 13px; color: var(--gray-600); line-height: 1.5; }
+        .risk-advice li strong { color: var(--green-800); }
+
         /* ===== Payment Modal ===== */
         .pay-overlay {
             display: none;
@@ -734,6 +776,7 @@
             </a>
             <div class="nav-links">
                 <a class="active" onclick="switchPage('home')">风险评估</a>
+                <a onclick="switchPage('riskcalc')">风险自测</a>
                 <a onclick="switchPage('knowledge')">知识库</a>
                 <a onclick="switchPage('shop')">检测试剂</a>
                 <a onclick="switchPage('expert')">咨询</a>
@@ -1099,6 +1142,88 @@
         </div>
     </div>
 
+    <!-- ===== PAGE: RISK CALC ===== -->
+    <div id="page-riskcalc" class="page-section">
+        <div class="section container" style="margin-top:64px;">
+            <div class="section-hero" style="background:linear-gradient(135deg,var(--green-800),var(--green-600));">
+                <h1>📊 HIV 风险自测</h1>
+                <p>4步评估你的行为风险，获得专业建议</p>
+            </div>
+
+            <div id="riskForm" class="risk-form">
+                <!-- Progress dots -->
+                <div class="risk-progress">
+                    <span class="risk-dot active"></span>
+                    <span class="risk-dot"></span>
+                    <span class="risk-dot"></span>
+                    <span class="risk-dot"></span>
+                </div>
+
+                <!-- Step 1: Behavior -->
+                <div class="risk-step active" data-step="0">
+                    <label class="risk-label">① 你的行为类型是？</label>
+                    <button class="risk-option" onclick="selectRisk(this,'无套肛交（被动方）')">🔴 无套肛交（被动方）</button>
+                    <button class="risk-option" onclick="selectRisk(this,'无套肛交（主动方）')">🟠 无套肛交（主动方）</button>
+                    <button class="risk-option" onclick="selectRisk(this,'无套阴道交')">🟡 无套阴道交</button>
+                    <button class="risk-option" onclick="selectRisk(this,'无套口交')">🟢 无套口交</button>
+                    <button class="risk-option" onclick="selectRisk(this,'共用针具/注射器')">🔴 共用针具/注射器</button>
+                    <button class="risk-option" onclick="selectRisk(this,'职业暴露（针刺伤等）')">🟡 职业暴露（针刺伤等）</button>
+                    <button class="risk-option" onclick="selectRisk(this,'戴套性行为（全程使用）')">🟢 戴套性行为（全程使用）</button>
+                    <button class="risk-option" onclick="selectRisk(this,'其他/不确定')">⚪ 其他/不确定</button>
+                    <div class="risk-nav">
+                        <span></span>
+                        <button class="risk-btn risk-btn-next" disabled onclick="nextStep()">下一步 →</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Partner status -->
+                <div class="risk-step" data-step="1">
+                    <label class="risk-label">② 对方是否已知HIV阳性？</label>
+                    <button class="risk-option" onclick="selectRisk(this,'确诊HIV阳性（且未治疗）')">🔴 确诊HIV阳性（且未治疗）</button>
+                    <button class="risk-option" onclick="selectRisk(this,'HIV阳性（正在治疗/病毒载量检测不到）')">🟢 HIV阳性（治疗中/病毒检测不到）</button>
+                    <button class="risk-option" onclick="selectRisk(this,'对方状态未知')">🟡 对方状态未知</button>
+                    <button class="risk-option" onclick="selectRisk(this,'对方属于低风险人群')">🟢 对方属于低风险人群</button>
+                    <button class="risk-option" onclick="selectRisk(this,'不确定/不适用')">⚪ 不确定/不适用</button>
+                    <div class="risk-nav">
+                        <button class="risk-btn risk-btn-prev" onclick="prevStep()">← 上一步</button>
+                        <button class="risk-btn risk-btn-next" disabled onclick="nextStep()">下一步 →</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Protection -->
+                <div class="risk-step" data-step="2">
+                    <label class="risk-label">③ 采取了哪些防护措施？</label>
+                    <button class="risk-option" onclick="selectRisk(this,'没有采取任何措施')">🔴 没有采取任何措施</button>
+                    <button class="risk-option" onclick="selectRisk(this,'服用了PEP阻断药（72小时内）')">🟢 服用了PEP阻断药（72小时内）</button>
+                    <button class="risk-option" onclick="selectRisk(this,'使用了安全套（全程正确使用）')">🟢 使用了安全套（全程正确使用）</button>
+                    <button class="risk-option" onclick="selectRisk(this,'安全套有破损/滑脱')">🟡 安全套有破损/滑脱</button>
+                    <button class="risk-option" onclick="selectRisk(this,'已服用PrEP（暴露前预防）')">🟢 已服用PrEP（暴露前预防）</button>
+                    <div class="risk-nav">
+                        <button class="risk-btn risk-btn-prev" onclick="prevStep()">← 上一步</button>
+                        <button class="risk-btn risk-btn-next" disabled onclick="nextStep()">下一步 →</button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Time & details -->
+                <div class="risk-step" data-step="3">
+                    <label class="risk-label">④ 距事情发生多久了？</label>
+                    <button class="risk-option" onclick="selectRisk(this,'72小时以内（紧急！）')">🔴 72小时以内（紧急！）</button>
+                    <button class="risk-option" onclick="selectRisk(this,'3-7天')">🟡 3-7天</button>
+                    <button class="risk-option" onclick="selectRisk(this,'1-4周')">🟡 1-4周</button>
+                    <button class="risk-option" onclick="selectRisk(this,'4周以上')">🟢 4周以上</button>
+                    <button class="risk-option" onclick="selectRisk(this,'3个月以上')">🟢 3个月以上</button>
+                    <div class="risk-nav">
+                        <button class="risk-btn risk-btn-prev" onclick="prevStep()">← 上一步</button>
+                        <button class="risk-btn risk-btn-next" disabled onclick="calculateRisk()">📊 查看评估结果</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Result area -->
+            <div id="riskResult" style="display:none;"></div>
+        </div>
+    </div>
+
     <!-- ===== Payment Modal ===== -->
     <div class="pay-overlay" id="payOverlay" onclick="closePayModal(event)">
         <div class="pay-modal" onclick="event.stopPropagation()">
@@ -1295,6 +1420,185 @@
                    '• <strong>你现在最担心什么？</strong><br><br>' +
                    '我会根据最新医学指南，给你专业、客观的评估和建议。<br><br>' +
                    '🔒 请放心，所有对话都是匿名的。';
+        }
+
+        // ====== Risk Calculator ======
+        let riskAnswers = {};
+        let currentStep = 0;
+
+        function selectRisk(btn, value) {
+            const parent = btn.parentElement;
+            parent.querySelectorAll('.risk-option').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            const step = parseInt(parent.dataset.step);
+            riskAnswers[step] = value;
+            const nextBtn = parent.querySelector('.risk-btn-next');
+            if (nextBtn) nextBtn.disabled = false;
+
+            // Disable other steps' next buttons if needed
+            document.querySelectorAll('.risk-step').forEach((el, i) => {
+                if (i === step) return;
+                const b = el.querySelector('.risk-btn-next');
+                if (b && !riskAnswers[i]) b.disabled = true;
+            });
+        }
+
+        function nextStep() {
+            if (currentStep < 3) {
+                document.querySelectorAll('.risk-step').forEach(el => el.classList.remove('active'));
+                currentStep++;
+                document.querySelectorAll('.risk-step')[currentStep].classList.add('active');
+                updateProgress();
+                // Auto-enable if already answered
+                const btn = document.querySelectorAll('.risk-step')[currentStep].querySelector('.risk-btn-next');
+                if (btn && riskAnswers[currentStep]) btn.disabled = false;
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 0) {
+                document.querySelectorAll('.risk-step').forEach(el => el.classList.remove('active'));
+                currentStep--;
+                document.querySelectorAll('.risk-step')[currentStep].classList.add('active');
+                updateProgress();
+            }
+        }
+
+        function updateProgress() {
+            document.querySelectorAll('.risk-dot').forEach((dot, i) => {
+                dot.classList.remove('active', 'done');
+                if (i < currentStep) dot.classList.add('done');
+                else if (i === currentStep) dot.classList.add('active');
+            });
+        }
+
+        function calculateRisk() {
+            // Hide form, show result
+            document.getElementById('riskForm').style.display = 'none';
+
+            const behavior = riskAnswers[0] || '';
+            const partner = riskAnswers[1] || '';
+            const protection = riskAnswers[2] || '';
+            const timeFrame = riskAnswers[3] || '';
+
+            // Simple risk algorithm based on medical data
+            let score = 0;
+            let riskLevel = '';
+            let riskIcon = '';
+            let riskLabel = '';
+            let riskColor = '';
+
+            // Behavior scoring
+            if (behavior.includes('无套肛交（被动方）') || behavior.includes('共用针具')) score += 5;
+            else if (behavior.includes('无套肛交（主动方）')) score += 3;
+            else if (behavior.includes('无套阴道交')) score += 3;
+            else if (behavior.includes('职业暴露')) score += 2;
+            else if (behavior.includes('无套口交')) score += 1;
+            else if (behavior.includes('安全套有破损')) score += 2;
+            else if (behavior.includes('戴套')) score += 0.2;
+            else score += 1;
+
+            // Partner scoring
+            if (partner.includes('确诊HIV阳性（且未治疗）')) score += 5;
+            else if (partner.includes('HIV阳性（正在治疗')) score += 0.1;
+            else if (partner.includes('状态未知')) score += 2;
+            else if (partner.includes('低风险')) score += 0.5;
+            else score += 1;
+
+            // Protection scoring
+            if (protection.includes('没有采取任何措施')) score += 0;
+            else if (protection.includes('PEP')) score -= 3;
+            else if (protection.includes('安全套（全程正确使用）')) score -= 2;
+            else if (protection.includes('PrEP')) score -= 4;
+
+            // Determine risk level
+            if (score >= 8) {
+                riskLevel = 'high';
+                riskIcon = '🔴';
+                riskLabel = '高风险';
+                riskColor = '#CC1838';
+            } else if (score >= 5) {
+                riskLevel = 'medium';
+                riskIcon = '🟡';
+                riskLabel = '中等风险';
+                riskColor = '#e67e22';
+            } else if (score >= 2) {
+                riskLevel = 'low';
+                riskIcon = '🟢';
+                riskLabel = '低风险';
+                riskColor = '#27ae60';
+            } else {
+                riskLevel = 'minimal';
+                riskIcon = '✅';
+                riskLabel = '基本无风险';
+                riskColor = '#27ae60';
+            }
+
+            // Build advice based on time frame
+            let timeAdvice = '';
+            if (timeFrame.includes('72小时以内')) {
+                timeAdvice = '<li><strong>🚨 你还在PEP黄金72小时内！</strong> 请立即前往最近的疾控中心或传染病医院，医生评估后开具PEP阻断药，越早服用效果越好。</li>';
+            } else if (timeFrame.includes('3-7天')) {
+                timeAdvice = '<li><strong>⏰ PEP最佳时间已过</strong>，但建议在第4周和第6周进行HIV检测（第四代检测）。</li>';
+            } else if (timeFrame.includes('1-4周')) {
+                timeAdvice = '<li><strong>📅 到了可检测的时间</strong>，可以去医院做第四代抗原抗体联合检测。4周阴性可基本放心。</li>';
+            } else if (timeFrame.includes('4周以上')) {
+                timeAdvice = '<li><strong>✅ 建议去做检测</strong>。第四代检测6周可完全排除。如果测了阴性可以放心。</li>';
+            } else if (timeFrame.includes('3个月以上')) {
+                timeAdvice = '<li><strong>✅ 已经是最终排除时间</strong>。任何检测方法在3个月后阴性都可以100%排除。</li>';
+            }
+
+            // PEP alert for high/medium risk within 72h
+            let pepAlert = '';
+            if ((riskLevel === 'high' || riskLevel === 'medium') && timeFrame.includes('72小时以内')) {
+                pepAlert = '<div style="background:#fde8ec;border:2px solid #cc1838;border-radius:var(--radius-md);padding:16px;margin-bottom:16px;text-align:center;"><strong style="color:#cc1838;">🚨 紧急提醒：建议立即服用PEP阻断药！</strong><br><span style="font-size:13px;color:#666;">去医院挂感染科或皮肤性病科，72小时内有效</span></div>';
+            }
+
+            // U=U note for treated partner
+            let uEqualsU = '';
+            if (partner.includes('HIV阳性（正在治疗') && !behavior.includes('无套口交')) {
+                uEqualsU = '<div style="background:#e8f5e9;border:2px solid #27ae60;border-radius:var(--radius-md);padding:12px;margin-bottom:16px;text-align:center;font-size:13px;"><strong>U=U（检测不到=不传染）</strong><br>对方正在治疗且病毒载量检测不到，通过性接触传播风险为零。</div>';
+            }
+
+            // Display result
+            document.getElementById('riskResult').style.display = 'block';
+            document.getElementById('riskResult').innerHTML = `
+                <div class="risk-result-card">
+                    <div class="risk-level-icon">${riskIcon}</div>
+                    <div class="risk-level-label" style="color:${riskColor};">${riskLabel}</div>
+                    <div class="risk-level-desc">基于你的回答，综合评估结果如上。</div>
+                    ${pepAlert}
+                    ${uEqualsU}
+                    <div class="risk-advice">
+                        <strong style="color:var(--green-900);font-size:14px;">📋 建议</strong>
+                        <ul>
+                            ${timeAdvice}
+                            <li><strong>🧠 心理方面：</strong> 恐艾焦虑是真实的，如果检测阴性后仍然担心，可以使用AI心理疏导缓解焦虑。</li>
+                            <li><strong>🛡️ 预防未来：</strong> 全程正确使用安全套、考虑PrEP（暴露前预防）、定期检测。</li>
+                        </ul>
+                    </div>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+                        <button onclick="resetRiskCalc()" class="risk-btn risk-btn-prev">🔄 重新评估</button>
+                        <button onclick="switchPage('home');quickAsk('${encodeURIComponent('我做了' + behavior + '，风险评估结果为' + riskLabel + '，能帮我详细分析一下吗？')}')" class="risk-btn risk-btn-next" style="text-decoration:none;">💬 让AI详细分析</button>
+                    </div>
+                    <div style="margin-top:12px;font-size:11px;color:var(--gray-400);">⚠️ 本评估仅供参考，不能替代医生诊断。如有高风险暴露，请立即就医。</div>
+                </div>
+            `;
+        }
+
+        function resetRiskCalc() {
+            riskAnswers = {};
+            currentStep = 0;
+            document.querySelectorAll('.risk-step').forEach((el, i) => {
+                el.classList.remove('active');
+                if (i === 0) el.classList.add('active');
+                el.querySelectorAll('.risk-option').forEach(b => b.classList.remove('selected'));
+                const nb = el.querySelector('.risk-btn-next');
+                if (nb) nb.disabled = true;
+            });
+            document.getElementById('riskForm').style.display = 'block';
+            document.getElementById('riskResult').style.display = 'none';
+            updateProgress();
         }
 
         // ====== Payment Modal ======
