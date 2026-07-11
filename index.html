@@ -738,6 +738,7 @@
                 <a onclick="switchPage('shop')">检测试剂</a>
                 <a onclick="switchPage('expert')">咨询</a>
                 <a href="blog/">文章</a>
+                <a onclick="switchPage('feedback')">反馈</a>
             </div>
         </div>
     </nav>
@@ -1038,6 +1039,60 @@
                     <div style="margin-top:12px;display:flex;flex-direction:column;gap:4px;">
                         <span style="font-size:13px;font-weight:600;color:var(--green-700);">扫一扫 · 安全支付</span>
                         <span style="font-size:11px;color:var(--gray-400);">付款后加微信发截图 · 24h内联系</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PAGE: FEEDBACK ===== -->
+    <div id="page-feedback" class="page-section">
+        <div class="section container">
+            <div class="section-hero" style="background:linear-gradient(135deg,var(--green-800),var(--green-600));margin-top:64px;">
+                <h1>💬 意见反馈</h1>
+                <p>你的建议能帮助我们做得更好</p>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+                <!-- Form -->
+                <div style="background:var(--white);border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow-sm);border:1px solid var(--gray-200);">
+                    <h3 style="font-size:16px;color:var(--green-900);margin-bottom:16px;">📝 提交反馈</h3>
+                    <form action="mailto:careaihu@163.com" method="post" enctype="text/plain" style="display:flex;flex-direction:column;gap:14px;">
+                        <div>
+                            <label style="font-size:13px;color:var(--gray-600);display:block;margin-bottom:4px;">反馈类型</label>
+                            <select style="width:100%;padding:10px 14px;border:2px solid var(--gray-200);border-radius:var(--radius-sm);font-size:14px;font-family:inherit;background:var(--white);">
+                                <option>网站建议</option>
+                                <option>内容纠错</option>
+                                <option>功能需求</option>
+                                <option>合作咨询</option>
+                                <option>其他</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="font-size:13px;color:var(--gray-600);display:block;margin-bottom:4px;">你的建议 <span style="color:var(--red);">*</span></label>
+                            <textarea rows="5" style="width:100%;padding:12px 14px;border:2px solid var(--gray-200);border-radius:var(--radius-sm);font-size:14px;font-family:inherit;resize:vertical;line-height:1.6;" placeholder="请详细描述你的建议或遇到的问题…" required></textarea>
+                        </div>
+                        <div>
+                            <label style="font-size:13px;color:var(--gray-600);display:block;margin-bottom:4px;">联系方式（选填）</label>
+                            <input type="text" style="width:100%;padding:10px 14px;border:2px solid var(--gray-200);border-radius:var(--radius-sm);font-size:14px;font-family:inherit;" placeholder="微信/QQ/邮箱，方便我们回复你">
+                        </div>
+                        <button type="submit" style="background:linear-gradient(135deg,var(--green-600),var(--green-500));color:white;border:none;border-radius:var(--radius-sm);padding:12px;font-size:15px;font-weight:600;cursor:pointer;">📨 提交反馈</button>
+                    </form>
+                </div>
+                <!-- Contact info -->
+                <div style="display:flex;flex-direction:column;gap:16px;">
+                    <div style="background:var(--white);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow-sm);border:1px solid var(--gray-200);flex:1;">
+                        <h3 style="font-size:16px;color:var(--green-900);margin-bottom:12px;">📞 其他反馈方式</h3>
+                        <div style="font-size:14px;color:var(--gray-600);line-height:2.2;">
+                            <div>📧 邮箱：<code style="background:var(--green-50);padding:2px 8px;border-radius:4px;color:var(--green-700);">careaihu@163.com</code></div>
+                            <div>💬 微信：<code style="background:var(--green-50);padding:2px 8px;border-radius:4px;color:var(--green-700);">careaihu</code></div>
+                            <div style="margin-top:12px;padding:12px;background:var(--gray-50);border-radius:var(--radius-sm);font-size:13px;line-height:1.6;">
+                                你的每一条反馈我们都会认真对待。对于留下联系方式的用户，我们会在48小时内回复。
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background:var(--white);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-sm);border:1px solid var(--gray-200);text-align:center;">
+                        <div style="font-size:28px;margin-bottom:4px;">❤️</div>
+                        <div style="font-size:13px;color:var(--gray-600);">感谢你对 CARE 艾护的支持</div>
                     </div>
                 </div>
             </div>
