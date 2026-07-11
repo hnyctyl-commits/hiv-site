@@ -600,6 +600,84 @@
         .risk-advice li { margin: 8px 0; font-size: 13px; color: var(--gray-600); line-height: 1.5; }
         .risk-advice li strong { color: var(--green-800); }
 
+        /* ===== PEP Countdown ===== */
+        .pep-countdown {
+            background: linear-gradient(135deg, #1a1a2e, #2d2d4e);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .pep-countdown::before {
+            content: '';
+            position: absolute; top: -50%; right: -50%;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(204,24,56,0.15), transparent 70%);
+            pointer-events: none;
+        }
+        .pep-countdown .title {
+            font-size: 14px; font-weight: 700;
+            display: flex; align-items: center; gap: 6px;
+            margin-bottom: 12px;
+        }
+        .pep-countdown .timer-display {
+            text-align: center;
+            padding: 12px;
+            background: rgba(255,255,255,0.06);
+            border-radius: var(--radius-md);
+            margin-bottom: 12px;
+        }
+        .pep-countdown .timer-num {
+            font-size: 36px; font-weight: 800;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 2px;
+        }
+        .pep-countdown .timer-num .hours { color: #52B788; }
+        .pep-countdown .timer-num .warn { color: #e74c3c; }
+        .pep-countdown .timer-label {
+            font-size: 11px; color: rgba(255,255,255,0.5);
+            margin-top: 4px;
+        }
+        .pep-countdown .set-time-btn {
+            width: 100%; padding: 10px;
+            border: 2px dashed rgba(255,255,255,0.2);
+            border-radius: var(--radius-sm);
+            background: transparent;
+            color: rgba(255,255,255,0.6);
+            font-size: 13px; cursor: pointer; font-family: inherit;
+            transition: var(--transition);
+        }
+        .pep-countdown .set-time-btn:hover {
+            border-color: var(--green-400);
+            color: var(--green-400);
+            background: rgba(82,183,136,0.1);
+        }
+        .pep-countdown .actions { display: flex; gap: 8px; margin-top: 10px; }
+        .pep-countdown .actions button {
+            flex: 1; padding: 8px; border: none; border-radius: var(--radius-sm);
+            font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit;
+            transition: var(--transition);
+        }
+        .pep-countdown .pep-guide-btn { background: var(--green-600); color: white; }
+        .pep-countdown .pep-guide-btn:hover { background: var(--green-700); }
+        .pep-countdown .pep-chat-btn { background: rgba(255,255,255,0.1); color: white; }
+        .pep-countdown .pep-chat-btn:hover { background: rgba(255,255,255,0.2); }
+        .pep-countdown .expired-text { text-align: center; font-size: 13px; color: rgba(255,255,255,0.5); padding: 8px; }
+        .pep-countdown .pep-steps {
+            display: none; margin-top: 12px;
+            background: rgba(255,255,255,0.06);
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+        }
+        .pep-countdown .pep-steps.show { display: block; }
+        .pep-countdown .pep-steps li {
+            font-size: 12px; color: rgba(255,255,255,0.8);
+            margin: 6px 0; line-height: 1.5;
+            list-style: none; padding-left: 0;
+        }
+        .pep-countdown .pep-steps li::before { content: '→ '; color: var(--green-400); }
+
         /* ===== Payment Modal ===== */
         .pay-overlay {
             display: none;
@@ -868,6 +946,28 @@
                         <button class="quick-btn" onclick="quickAsk('我测了6次都是阴性，但还是害怕，每天睡不着，怎么办？')">😰 测了6次阴性，还是害怕</button>
                         <button class="quick-btn" onclick="quickAsk('发生了口交，会感染HIV吗？需要检测吗？')">🤔 口交会感染吗？</button>
                         <button class="quick-btn" onclick="quickAsk('HIV急性期症状有哪些？和感冒怎么区分？')">🤒 HIV症状 vs 感冒？</button>
+                    </div>
+
+                    <!-- PEP Countdown -->
+                    <div class="pep-countdown" id="pepCountdown">
+                        <div class="title">⏰ PEP 黄金72小时</div>
+                        <div class="timer-display" id="pepTimerDisplay">
+                            <div class="timer-num">
+                                <span id="pepHours">72</span>:<span id="pepMinutes">00</span>:<span id="pepSeconds">00</span>
+                            </div>
+                            <div class="timer-label">距离72小时截止</div>
+                        </div>
+                        <button class="set-time-btn" onclick="setPepTime()">📅 设置高危时间，开始倒计时</button>
+                        <div class="actions">
+                            <button class="pep-guide-btn" onclick="switchPage('riskcalc')">📖 风险自测</button>
+                            <button class="pep-chat-btn" onclick="quickAsk('PEP阻断药在哪里买？多少钱？怎么吃？')">💬 咨询AI</button>
+                        </div>
+                        <div class="pep-steps" id="pepSteps">
+                            <li>立即前往当地疾控中心或传染病医院</li>
+                            <li>挂感染科或皮肤性病科，说需要PEP评估</li>
+                            <li>医生开具处方后，28天内每天按时服药</li>
+                            <li>停药后4周和12周做HIV检测确认</li>
+                        </div>
                     </div>
 
                     <div class="panel">
@@ -1420,6 +1520,85 @@
                    '• <strong>你现在最担心什么？</strong><br><br>' +
                    '我会根据最新医学指南，给你专业、客观的评估和建议。<br><br>' +
                    '🔒 请放心，所有对话都是匿名的。';
+        }
+
+        // ====== PEP Countdown ======
+        let pepInterval = null;
+        let pepEndTime = localStorage.getItem('pepEndTime');
+
+        function setPepTime() {
+            const now = new Date();
+            const hours = prompt('高危行为发生在几小时前？\n（输入数字，如：2、6、12、24）', '2');
+            if (hours === null || hours === '') return;
+            const h = parseFloat(hours);
+            if (isNaN(h) || h < 0) { alert('请输入有效的小时数'); return; }
+            
+            const elapsed = h * 3600000; // hours to ms
+            pepEndTime = now.getTime() - elapsed + 72 * 3600000; // 72h from exposure
+            localStorage.setItem('pepEndTime', pepEndTime.toString());
+            startPepTimer();
+            document.getElementById('pepSteps').classList.add('show');
+        }
+
+        function startPepTimer() {
+            if (pepInterval) clearInterval(pepInterval);
+            
+            function tick() {
+                const now = Date.now();
+                const remaining = pepEndTime - now;
+                
+                const hEl = document.getElementById('pepHours');
+                const mEl = document.getElementById('pepMinutes');
+                const sEl = document.getElementById('pepSeconds');
+                
+                if (remaining <= 0) {
+                    hEl.textContent = '00';
+                    mEl.textContent = '00';
+                    sEl.textContent = '00';
+                    hEl.className = 'warn';
+                    mEl.className = 'warn';
+                    sEl.className = 'warn';
+                    document.querySelector('.timer-label').textContent = '⏰ 72小时已过，但仍建议咨询医生';
+                    if (pepInterval) clearInterval(pepInterval);
+                    return;
+                }
+                
+                const totalHours = remaining / 3600000;
+                const hrs = Math.floor(totalHours);
+                const mins = Math.floor((remaining % 3600000) / 60000);
+                const secs = Math.floor((remaining % 60000) / 1000);
+                
+                hEl.textContent = String(hrs).padStart(2, '0');
+                mEl.textContent = String(mins).padStart(2, '0');
+                sEl.textContent = String(secs).padStart(2, '0');
+                
+                // Color change when < 24 hours
+                if (hrs < 24) {
+                    hEl.className = 'warn';
+                    mEl.className = 'warn';
+                    sEl.className = 'warn';
+                    document.querySelector('.timer-label').textContent = '⚠️ 时间紧迫！请立即行动！';
+                } else if (hrs < 48) {
+                    hEl.className = '';
+                    mEl.className = '';
+                    sEl.className = '';
+                    document.querySelector('.timer-label').textContent = '⚡ 还在黄金时间内，尽快行动';
+                } else {
+                    hEl.className = 'hours';
+                    mEl.className = '';
+                    sEl.className = '';
+                    document.querySelector('.timer-label').textContent = '距离72小时截止';
+                }
+            }
+
+            tick();
+            pepInterval = setInterval(tick, 1000);
+        }
+
+        // Load saved timer on page load
+        if (pepEndTime && pepEndTime > Date.now()) {
+            startPepTimer();
+            document.getElementById('pepSteps').classList.add('show');
         }
 
         // ====== Risk Calculator ======
