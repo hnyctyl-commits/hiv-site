@@ -846,7 +846,10 @@
         /* Tablet */
         @media (min-width: 769px) and (max-width: 1024px) {
             .chat-layout { gap: 20px; }
-            .sidebar { gap: 16px; }
+            .sidebar { gap: 12px; }
+            .panel { padding: 12px; }
+            .product-item { padding: 8px 10px; }
+            .quick-btn { font-size: 12px; padding: 8px 12px; }
             .kb-grid { grid-template-columns: 1fr 1fr; }
         }
 
@@ -868,12 +871,12 @@
         <div class="nav-inner">
             <a href="#" class="logo" onclick="switchPage('home');return false">
                 <img src="assets/logo.png" alt="CARE 艾护" style="height:36px;width:auto;">
-                <span style="display:flex;align-items:center;gap:10px;margin-left:2px;">
-                    <span style="display:flex;flex-direction:column;line-height:1.05;border-right:1.5px solid var(--gray-200);padding-right:10px;">
-                        <span style="font-size:11px;font-weight:700;color:var(--green-600);letter-spacing:2.5px;text-transform:uppercase;">CARE</span>
-                        <span style="font-size:17px;font-weight:800;color:var(--green-900);letter-spacing:4px;">艾护</span>
-                    </span>
-                    <span style="font-size:10px;color:var(--red);font-weight:600;letter-spacing:1px;background:var(--red-light);padding:2px 6px;border-radius:4px;line-height:1.2;">公益</span>
+                <span style="display:flex;align-items:center;gap:10px;margin-left:4px;">
+                <span style="display:flex;flex-direction:row;align-items:baseline;gap:6px;border-right:1.5px solid var(--gray-300);padding-right:10px;">
+                    <span style="font-size:12px;font-weight:700;color:var(--green-600);letter-spacing:2px;text-transform:uppercase;">CARE</span>
+                    <span style="font-size:17px;font-weight:800;color:var(--green-900);letter-spacing:3px;">艾护</span>
+                </span>
+                <span style="font-size:10px;color:var(--red);font-weight:600;letter-spacing:1px;background:var(--red-light);padding:2px 8px;border-radius:4px;line-height:1.4;">公益</span>
                 </span>
             </a>
             <div class="nav-links">
