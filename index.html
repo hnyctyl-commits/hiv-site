@@ -1511,10 +1511,42 @@
             chatMessages.appendChild(div);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
+        // ====== Free message limit ======
+        const MAX_FREE = 10;
+        function getMsgCount() {
+            try {
+                return parseInt(localStorage.getItem('careMsgCount') || '0');
+            } catch(e) { return 0; }
+        }
+        function incMsgCount() {
+            try {
+                const c = getMsgCount() + 1;
+                localStorage.setItem('careMsgCount', c.toString());
+                return c;
+            } catch(e) { return 0; }
+        }
+        function canChat() {
+            return getMsgCount() < MAX_FREE;
+        }
 
+        // ====== Chat ======
         async function sendMessage() {
             const text = userInput.value.trim();
-            if (!text) return;
+            if (!text) { userInput.value = ''; return; }
+
+            // Block if over limit
+            if (!canChat()) {
+                addMessage('', false);
+                addMessage('', false);
+                // Show paywall
+                setTimeout(() => {
+                    userInput.disabled = true;
+                    sendBtn.disabled = true;
+                    userInput.placeholder = '免费次数已用完';
+                }, 100);
+                return;
+            }
+
             addMessage(text, true);
             userInput.value = ''; userInput.style.height = '44px';
             sendBtn.disabled = true;
@@ -1535,7 +1567,18 @@
                 chatSessionId = data.session_id || chatSessionId;
                 typing.classList.remove('show');
                 sendBtn.disabled = false;
-                addMessage(data.reply.replace(/\n/g, '<br>'), false);
+                const count = incMsgCount();
+                const remaining = MAX_FREE - count;
+                let reply = data.reply.replace(/\n/g, '<br>');
+                if (remaining <= 0) {
+                    reply += '<br><br><div style="background:var(--green-50);border-radius:10px;padding:14px;text-align:center;font-size:13px;border:1px solid var(--green-200);">💡 <strong>你的10次免费咨询已用完</strong><br>如果还有疑问，可以选择<a href="#" onclick="switchPage(\'expert\')" style="color:var(--green-700);font-weight:600;">专业咨询</a>，由健康顾问一对一解答。</div>';
+                    userInput.disabled = true;
+                    sendBtn.disabled = true;
+                    userInput.placeholder = '免费次数已用完';
+                } else if (remaining <= 3) {
+                    reply += `<br><br><div style="font-size:11px;color:var(--gray-400);text-align:center;">还剩 ${remaining} 次免费咨询</div>`;
+                }
+                addMessage(reply, false);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             } catch (err) {
                 typing.classList.remove('show');
